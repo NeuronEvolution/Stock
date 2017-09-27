@@ -1,0 +1,466 @@
+,公司全称,英文名称,A股代码,A股简称,A股上市日期,省    份,城     市,所属行业,公司网址
+szA_000001,平安银行股份有限公司,"Ping An Bank Co., Ltd.",000001,平安银行,1991-04-03,广东,深圳市,J 金融业,www.bank.pingan.com
+szA_000002,万科企业股份有限公司,"CHINA VANKE CO., LTD.",000002,万  科Ａ,1991-01-29,广东,深圳市,K 房地产,www.vanke.com
+szA_000004,深圳中国农大科技股份有限公司,"SHENZHEN CAU TECHNOLOGY CO., LTD",000004,国农科技,1990-12-01,广东,深圳市,C 制造业,www.sz000004.cn
+szA_000005,深圳世纪星源股份有限公司,SHENZHEN FOUNTAIN CORPORATION,000005,世纪星源,1990-12-10,广东,深圳市,N 公共环保,www.fountain.com.cn
+szA_000006,深圳市振业(集团)股份有限公司,"SHENZHEN ZHENYE(GROUP) CO.,LTD.",000006,深振业Ａ,1992-04-27,广东,深圳市,K 房地产,www.zhenye.com
+szA_000007,深圳市全新好股份有限公司,"SHENZHEN Quanxinhao CO., LTD.",000007,全新好,1992-04-13,广东,深圳市,K 房地产,
+szA_000008,神州高铁技术股份有限公司,"China High-Speed Railway Technology Co., Ltd.",000008,神州高铁,1992-05-07,北京,北京市,C 制造业,www.shenzhou-gaotie.com
+szA_000009,中国宝安集团股份有限公司,"CHINA BAOAN GROUP CO., LTD.",000009,中国宝安,1991-06-25,广东,深圳市,S 综合,www.chinabaoan.com
+szA_000010,深圳美丽生态股份有限公司,"SHENZHEN ECOBEAUTY CO., LTD.",000010,美丽生态,1995-10-27,广东,深圳市,E 建筑业,
+szA_000011,深圳市物业发展(集团)股份有限公司,ShenZhen Properties & Resources Development (Group) Ltd.,000011,深物业A,1992-03-30,广东,深圳市,K 房地产,www.szwuye.com.cn
+szA_000012,中国南玻集团股份有限公司,"CSG HOLDING CO.,LTD.",000012,南  玻Ａ,1992-02-28,广东,深圳市,C 制造业,www.csgholding.com
+szA_000014,沙河实业股份有限公司,"SHAHE INDUSTRIAL CO.,LTD.",000014,沙河股份,1992-06-02,广东,深圳市,K 房地产,www.shahe.cn
+szA_000016,康佳集团股份有限公司,"KONKA GROUP CO.,LTD",000016,深康佳Ａ,1992-03-27,广东,深圳市,C 制造业,www.konka.com
+szA_000017,深圳中华自行车(集团)股份有限公司,SHENZHEN CHINA BICYCLE COMPANY(HOLDINGS) LIMITED,000017,深中华A,1992-03-31,广东,深圳市,C 制造业,www.cbc.com.cn
+szA_000018,神州长城股份有限公司,"Sino Great Wall Co.,Ltd.",000018,神州长城,1992-06-16,广东,深圳市,E 建筑业,www.udcgroup.com
+szA_000019,深圳市深宝实业股份有限公司,"SHENZHEN SHENBAO INDUSTRIAL CO.,LTD",000019,深深宝Ａ,1992-10-12,广东,深圳市,C 制造业,www.sbsy.com.cn
+szA_000020,深圳中恒华发股份有限公司,"SHENZHEN ZHONGHENG HUAFA CO., LTD.",000020,深华发Ａ,1992-04-28,广东,深圳市,C 制造业,www.hwafa.com.cn
+szA_000021,深圳长城开发科技股份有限公司,"SHENZHEN KAIFA TECHNOLOGY CO., LTD",000021,深科技,1994-02-02,广东,深圳市,C 制造业,www.kaifa.com.cn
+szA_000022,深圳赤湾港航股份有限公司,Shenzhen Chiwan Wharf Holdings Limited,000022,深赤湾Ａ,1993-05-05,广东,深圳市,G 运输仓储,www.szcwh.com
+szA_000023,深圳市天地(集团)股份有限公司,"SHENZHEN UNIVERSE (GROUP)CO.,LTD",000023,深天地Ａ,1993-04-29,广东,深圳市,C 制造业,www.000023.cn
+szA_000025,深圳市特力(集团)股份有限公司,"Shenzhen Tellus Holding Co.,Ltd",000025,特  力Ａ,1993-06-21,广东,深圳市,F 批发零售,www.tellus.cn
+szA_000026,飞亚达（集团）股份有限公司,FIYTA  HOLDINGS  LTD.,000026,飞亚达Ａ,1993-06-03,广东,深圳市,F 批发零售,www.fiytagroup.com
+szA_000027,深圳能源集团股份有限公司,"Shenzhen Energy Group Co., Ltd.",000027,深圳能源,1993-09-03,广东,深圳市,D 水电煤气,www.sec.com.cn
+szA_000028,国药集团一致药业股份有限公司,China National Accord Medicines Corporation Ltd.,000028,国药一致,1993-08-09,广东,深圳市,F 批发零售,www.szaccord.com.cn
+szA_000029,深圳经济特区房地产(集团)股份有限公司,"ShenZhen Special Economic Zone Real Estate&Properties (Group) Co., Ltd.",000029,深深房Ａ,1993-09-15,广东,深圳市,K 房地产,www.sfjt.com.cn
+szA_000030,富奥汽车零部件股份有限公司,FAWER Automotive Parts Limited Company,000030,富奥股份,1993-09-29,吉林,长春市,C 制造业,
+szA_000031,中粮地产（集团）股份有限公司,"COFCO  PROPERTY (GROUP) CO.,LTD.",000031,中粮地产,1993-10-08,广东,深圳市,K 房地产,www.cofco-property.cn
+szA_000032,深圳市桑达实业股份有限公司,"SHENZHEN SED INDUSTRY CO.,LTD",000032,深桑达Ａ,1993-10-28,广东,深圳市,F 批发零售,www.sedind.com
+szA_000034,神州数码集团股份有限公司,"Digital China Group Co.,Ltd.",000034,神州数码,1994-05-09,广东,深圳市,F 批发零售,www.digitalchina.com
+szA_000035,中国天楹股份有限公司, China Tianying Inc.,000035,中国天楹,1994-04-08,江苏,南通市,N 公共环保,www.chinakejian.net
+szA_000036,华联控股股份有限公司,CHINA UNION HOLDINGS LTD.,000036,华联控股,1994-06-17,广东,深圳市,K 房地产,www.udcgroup.com
+szA_000037,深圳南山热电股份有限公司,"SHENZHEN NANSHAN POWER STATION CO.,LTD",000037,深南电A,1994-07-01,广东,深圳市,D 水电煤气,www.nsrd.com.cn
+szA_000038,深圳大通实业股份有限公司,"SHENZHEN CAPSTONE INDUSTRIAL CO.,LTD.",000038,深大通,1994-08-08,广东,深圳市,L 商务服务,www.chinadatong.com
+szA_000039,中国国际海运集装箱(集团)股份有限公司,"CHINA INTERNATIONAL MARINE CONTAINERS (GROUP) CO., LTD",000039,中集集团,1994-04-08,广东,深圳市,C 制造业,www.cimc.com
+szA_000040,东旭蓝天新能源股份有限公司,"TUNGHSU AZURE RENEWABLE ENERGY CO.,LTD.",000040,东旭蓝天,1994-08-08,广东,深圳市,E 建筑业,www.bahjdc.com
+szA_000042,深圳市中洲投资控股股份有限公司,"SHENZHEN CENTRALCON INVESTMENT HOLDING CO., LTD",000042,中洲控股,1994-09-21,广东,深圳市,K 房地产,www.zztzkg.com
+szA_000043,中航地产股份有限公司,AVIC REAL ESTATE HOLDING COMPANY LIMITED,000043,中航地产,1994-09-28,广东,深圳市,K 房地产,www.carec.com.cn
+szA_000045,深圳市纺织(集团)股份有限公司,"SHENZHEN TEXTILE (HOLDINGS) CO., LTD",000045,深纺织Ａ,1994-08-15,广东,深圳市,C 制造业,www.chinasthc.com
+szA_000046,泛海控股股份有限公司,"OCEANWIDE HOLDINGS CO., LTD.",000046,泛海控股,1994-09-12,北京,北京市,K 房地产,www.fhjs.cn
+szA_000048,深圳市康达尔(集团)股份有限公司,"SHENZHEN KONDARL(GROUP)CO., LTD",000048,康达尔,1994-11-01,广东,深圳市,C 制造业,www.kondarl.com
+szA_000049,深圳市德赛电池科技股份有限公司,"SHENZHEN DESAY BATTERY TECHNOLOGY CO.,LTD",000049,德赛电池,1995-03-20,广东,深圳市,C 制造业,www.desaybattery.com
+szA_000050,天马微电子股份有限公司,"TIANMA MICROELECTRONICS CO., LTD",000050,深天马Ａ,1995-03-15,广东,深圳市,C 制造业,www.tianma.cn
+szA_000055,方大集团股份有限公司,"CHINA FANGDA GROUP CO., LTD",000055,方大集团,1996-04-15,广东,深圳市,C 制造业,www.fangda.com
+szA_000056,深圳市皇庭国际企业股份有限公司,"SHENZHEN WONGTEE INTERNATIONAL ENTERPRISE CO., LTD.",000056,皇庭国际,1996-07-08,广东,深圳市,K 房地产,www.china-ia.com
+szA_000058,深圳赛格股份有限公司,"SHENZHEN SEG CO.,LTD",000058,深 赛 格,1996-12-26,广东,深圳市,L 商务服务,www.segcl.com.cn
+szA_000059,北方华锦化学工业股份有限公司,"North Huajin Chemical Industries Co.,Ltd",000059,华锦股份,1997-01-30,辽宁,盘锦市,C 制造业,www.hjch.com
+szA_000060,深圳市中金岭南有色金属股份有限公司,"SHENZHEN ZHONGJIN LINGNAN NONFEMET CO.,LTD",000060,中金岭南,1997-01-23,广东,深圳市,C 制造业,www.nonfemet.com
+szA_000061,深圳市农产品股份有限公司,"SHENZHEN AGRICULTURAL PRODUCTS CO., LTD",000061,农 产 品,1997-01-10,广东,深圳市,L 商务服务,www.szap.com
+szA_000062,深圳华强实业股份有限公司,"SHENZHEN HUAQIANG INDUSTRY CO., LTD",000062,深圳华强,1997-01-30,广东,深圳市,F 批发零售,www.szhq000062.com
+szA_000063,中兴通讯股份有限公司,ZTE CORPORATION,000063,中兴通讯,1997-11-18,广东,深圳市,C 制造业,www.zte.com.cn
+szA_000065,北方国际合作股份有限公司,NORINCO International Cooperation Ltd.,000065,北方国际,1998-06-05,北京,北京市,E 建筑业,www.norinco-intl.com
+szA_000066,中国长城科技集团股份有限公司,"CHINA GREATWALL TECHNOLOGY GROUP CO., LTD.",000066,中国长城,1997-06-26,广东,深圳市,C 制造业,www.greatwall.cn
+szA_000068,深圳华控赛格股份有限公司,"SHENZHEN HUAKONG SEG CO.,LTD.",000068,华控赛格,1997-06-11,广东,深圳市,C 制造业,www.ssg.com.cn
+szA_000069,深圳华侨城股份有限公司,"SHENZHEN OVERSEAS CHINESE TOWN CO.,LTD",000069,华侨城Ａ,1997-09-10,广东,深圳市,N 公共环保,www.octholding.com
+szA_000070,深圳市特发信息股份有限公司,"SHENZHEN SDG INFORMATION CO., LTD",000070,特发信息,2000-05-11,广东,深圳市,C 制造业,www.sdgi.com.cn
+szA_000078,深圳市海王生物工程股份有限公司,"SHENZHEN NEPTUNUS BIOENGINEERING  CO.,LTD",000078,海王生物,1998-12-18,广东,深圳市,F 批发零售,www.neptunus.com
+szA_000088,深圳市盐田港股份有限公司,"SHENZHEN YAN TIAN PORT HOLDINGS CO.,LTD",000088,盐 田 港,1997-07-28,广东,深圳市,G 运输仓储,www.yantian-port.com
+szA_000089,深圳市机场股份有限公司,"SHENZHEN AIRPORT CO.,LTD",000089,深圳机场,1998-04-20,广东,深圳市,G 运输仓储,www.szairport.com
+szA_000090,深圳市天健(集团)股份有限公司,"SHENZHEN TAGEN GROUP CO., LTD.",000090,天健集团,1999-07-21,广东,深圳市,E 建筑业,www.tagen.cn
+szA_000096,深圳市广聚能源股份有限公司,"SHENZHEN GUANGJU ENERGY CO., LTD",000096,广聚能源,2000-07-24,广东,深圳市,F 批发零售,www.gj000096.com
+szA_000099,中信海洋直升机股份有限公司,"CITIC OFFSHORE HELICOPTER CO.,LTD",000099,中信海直,2000-07-31,广东,深圳市,G 运输仓储,www.cohc.citic
+szA_000100,TCL集团股份有限公司,TCL CORPORATION,000100,TCL 集团,2004-01-30,广东,惠州市,C 制造业,www.tcl.com
+szA_000150,宜华健康医疗股份有限公司,"YIHUA HEALTHCARE Co., Ltd.",000150,宜华健康,2000-08-07,广东,汕头市,Q 卫生,www.yihuarealestate.com
+szA_000151,中成进出口股份有限公司,CHINA NATIONAL COMPLETE PLANT IMPORT  &  EXPORT CORPORATION LIMITED,000151,中成股份,2000-09-06,北京,北京市,F 批发零售,www.complant-ltd.com
+szA_000153,安徽丰原药业股份有限公司,"ANHUI FENGYUAN PHARMACEUTICAL CO., LTD",000153,丰原药业,2000-09-20,安徽,芜湖市,C 制造业,www.bbcayy.com
+szA_000155,川化股份有限公司,SICHUAN  CHEMICAL  COMPANY  LIMITED,000155,*ST川化,2000-09-26,四川,成都市,C 制造业,www.scwltd.com
+szA_000156,华数传媒控股股份有限公司,"Wasu Media Holding Co.,Ltd",000156,华数传媒,2000-09-06,浙江,杭州市,R 文化传播,
+szA_000157,中联重科股份有限公司,"ZOOMLION HEAVY INDUSTRY SCIENCE AND TECHNOLOGY CO., LTD",000157,中联重科,2000-10-12,湖南,长沙市,C 制造业,www.zoomlion.com
+szA_000158,石家庄常山纺织股份有限公司,"SHIJIAZHUANG CHANGSHAN TEXTILE CO.,LTD",000158,常山股份,2000-07-24,河北,石家庄市,C 制造业,www.changshantex.com
+szA_000159,新疆国际实业股份有限公司,"XINJIANG INTERNATIONAL INDUSTRY CO.,LTD",000159,国际实业,2000-09-26,新疆,乌鲁木齐市,F 批发零售,www.xjgjsy.com
+szA_000166,申万宏源集团股份有限公司,"Shenwan Hongyuan Group Co.,Ltd",000166,申万宏源,2015-01-26,新疆,乌鲁木齐市,J 金融业,
+szA_000301,江苏吴江中国东方丝绸市场股份有限公司,"Jiangsu Wujiang China Eastern Silk Market Co.,Ltd.",000301,东方市场,2000-05-29,江苏,苏州市,D 水电煤气,www.cesm.com.cn
+szA_000333,美的集团股份有限公司,"Midea Group Co., Ltd.",000333,美的集团,2013-09-18,广东,佛山市,C 制造业,www.midea.com.cn
+szA_000338,潍柴动力股份有限公司,"Weichai Power Co., Ltd.",000338,潍柴动力,2007-04-30,山东,潍坊市,C 制造业,www.weichaipower.com
+szA_000400,许继电气股份有限公司,"XJ ELECTRIC CO.,LTD",000400,许继电气,1997-04-18,河南,许昌市,C 制造业,www.xjec.com
+szA_000401,唐山冀东水泥股份有限公司,"TANGSHAN JIDONG CEMENT CO.,LTD",000401,冀东水泥,1996-06-14,河北,唐山市,C 制造业,www.jdsn.com.cn
+szA_000402,金融街控股股份有限公司,"FINANCIAL STREET HOLDINGS CO., LTD.",000402,金 融 街,1996-06-26,北京,北京市,K 房地产,www.jrjkg.com
+szA_000403,振兴生化股份有限公司,Zhenxing Biopharmaceutical & Chemical Inc,000403,ST生化,1996-06-28,山西,太原市,C 制造业,www.999yichun.cn
+szA_000404,华意压缩机股份有限公司,"HUAYI COMPRESSOR CO., LTD",000404,华意压缩,1996-06-19,江西,景德镇市,C 制造业,www.hua-yi.cn
+szA_000407,山东胜利股份有限公司,"SHANDONG SHENGLI CO., LTD.",000407,胜利股份,1996-07-03,山东,济南市,D 水电煤气,www.vicome.com
+szA_000408,藏格控股股份有限公司,ZANGGE HOLDING COMPANY LIMITED,000408,藏格控股,1996-06-28,青海,格尔木市,C 制造业,
+szA_000409,山东地矿股份有限公司,"SHANDONG GEO-MINERAL CO., LTD",000409,山东地矿,1996-06-27,山东,济南市,S 综合,www.sddkgf.com.cn
+szA_000410,沈阳机床股份有限公司,"SHENYANG MACHINE TOOL CO.,LTD",000410,*ST沈机,1996-07-18,辽宁,沈阳市,C 制造业,www.smtcl.com
+szA_000411,浙江英特集团股份有限公司,"ZHEJIANG INT’L GROUP CO.,LTD.",000411,英特集团,1996-07-16,浙江,杭州市,F 批发零售,www.intmedic.com
+szA_000413,东旭光电科技股份有限公司,"Dongxu Optoelectronic Technology Co., Ltd.",000413,东旭光电,1996-09-25,河北,石家庄市,C 制造业,
+szA_000415,渤海金控投资股份有限公司,"Bohai Capital Holding Co.,Ltd",000415,渤海金控,1996-07-16,新疆,乌鲁木齐市,L 商务服务,www.bohaileasing.com
+szA_000416,民生控股股份有限公司,"Minsheng Holdings Co.,Ltd",000416,民生控股,1996-07-19,山东,青岛市,J 金融业,
+szA_000417,合肥百货大楼集团股份有限公司,"HEFEI DEPARTMENT STORE GROUP CO.,LTD",000417,合肥百货,1996-08-12,安徽,合肥市,F 批发零售,www.hfbh.com.cn
+szA_000418,无锡小天鹅股份有限公司,"WUXI LITTLE SWAN CO.,LTD",000418,小天鹅Ａ,1997-03-28,江苏,无锡市,C 制造业,www.littleswan.com
+szA_000419,长沙通程控股股份有限公司,"CHANGSHA TONGCHENG HOLDINGS CO.,LTD",000419,通程控股,1996-08-16,湖南,长沙市,F 批发零售,www.e-tongcheng.com
+szA_000420,吉林化纤股份有限公司,"JILIN CHEMICAL FIBRE CO ., LTD",000420,吉林化纤,1996-08-02,吉林,吉林市,C 制造业,www.jlcfc.com
+szA_000421,南京公用发展股份有限公司,"NanJing Public Utilities Development Co., Ltd.",000421,南京公用,1996-08-06,江苏,南京市,D 水电煤气,www.zhong-bei.com
+szA_000422,湖北宜化化工股份有限公司,"HUBEI YIHUA CHEMICAL INDUSTRY CO., LTD",000422,湖北宜化,1996-08-15,湖北,宜昌市,C 制造业,www.hbyh.cn
+szA_000423,东阿阿胶股份有限公司,"Dong-E-E-Jiao Co., Ltd.",000423,东阿阿胶,1996-07-29,山东,聊城市,C 制造业,www.dongeejiao.com
+szA_000425,徐工集团工程机械股份有限公司,"XCMG Construction Machinery Co., Ltd.",000425,徐工机械,1996-08-28,江苏,徐州市,C 制造业,www.xcmg.com
+szA_000426,内蒙古兴业矿业股份有限公司,"INNER MONGOLIA XINGYE MINING CO.,LTD",000426,兴业矿业,1996-08-28,内蒙古,赤峰市,B 采矿业,
+szA_000428,华天酒店集团股份有限公司,"HUATIAN HOTEL GROUP  CO.,LTD.",000428,华天酒店,1996-08-08,湖南,长沙市,H 住宿餐饮,www.huatian-hotel.com
+szA_000429,广东省高速公路发展股份有限公司,"GUANGDONG PROVINCIAL EXPRESSWAY DEVELOPMENT CO.,LTD",000429,粤高速Ａ,1998-02-20,广东,广州市,G 运输仓储,www.gpedcl.com
+szA_000430,张家界旅游集团股份有限公司,"ZHANG JIA JIE TOURISM GROUP CO.,LTD",000430,张家界,1996-08-29,湖南,张家界市,N 公共环保,www.zjjgf.com
+szA_000488,山东晨鸣纸业集团股份有限公司,"SHANDONG CHENMING PAPER HOLDINGS CO.,LTD",000488,晨鸣纸业,2000-11-20,山东,潍坊市,C 制造业,www.chenmingpaper.com
+szA_000498,山东高速路桥集团股份有限公司,"SHANDONG HI-SPEED ROAD&BRIDGE CO.,LTD.",000498,山东路桥,1997-06-09,山东,济南市,E 建筑业,
+szA_000501,武汉武商集团股份有限公司,WUHAN DEPARTMENT STORE GROUP CO.LTD,000501,鄂武商Ａ,1992-11-20,湖北,武汉市,F 批发零售,www.wushang.com.cn
+szA_000502,绿景控股股份有限公司,"LVJING HOLDING CO.,LTD",000502,绿景控股,1992-11-23,广东,广州市,K 房地产,www.000502.cn
+szA_000503,海虹企业(控股)股份有限公司,SEARAINBOW HOLDING CORP,000503,海虹控股,1992-11-30,海南,海口市,I 信息技术,www.searainbow.com
+szA_000504,南华生物医药股份有限公司,"NanHua Bio-medicine CO.,Ltd．",000504,南华生物,1992-12-08,湖南,长沙市,R 文化传播,www.nhbiogroup.com
+szA_000505,海南珠江控股股份有限公司,"HaiNan Pearl River Holdings Co., Ltd.",000505,珠江控股,1992-12-21,海南,海口市,K 房地产,
+szA_000506,中润资源投资股份有限公司,Zhongrun Resources Investment Corporation,000506,中润资源,1993-03-12,山东,济南市,B 采矿业,
+szA_000507,珠海港股份有限公司,"ZHUHAI  PORT  CO., LTD",000507,珠海港,1993-03-26,广东,珠海市,G 运输仓储,www.0507.com.cn
+szA_000509,华塑控股股份有限公司,"Huasu Holdings CO.,Ltd",000509,华塑控股,1993-05-07,四川,南充市,C 制造业,
+szA_000510,四川金路集团股份有限公司,"SICHUAN JINLU GROUP CO., LTD.",000510,金路集团,1993-05-07,四川,德阳市,C 制造业,www.jinlugroup.cn
+szA_000511,银基烯碳新材料集团股份有限公司,"Ingenious Ene-Carbon New Materials Group Co.,Ltd.",000511,*ST烯碳,1993-05-18,辽宁,沈阳市,C 制造业,www.enecarbon-materials.com
+szA_000513,丽珠医药集团股份有限公司,LIVZON PHARMACEUTICAL GROUP INC.,000513,丽珠集团,1993-10-28,广东,珠海市,C 制造业,www.livzon.com.cn
+szA_000514,重庆渝开发股份有限公司,"CHONGQING YUKAIFA CO.,LTD",000514,渝 开 发,1993-07-12,重庆,重庆市,K 房地产,www.cqukf.com
+szA_000516,西安国际医学投资股份有限公司,"XI""AN INTERNATIONAL MEDICAL INVESTMENT COMPANY LIMITED",000516,国际医学,1993-08-09,陕西,西安市,F 批发零售,www.000516.cn
+szA_000517,荣安地产股份有限公司,"Rongan Property Co.,Ltd.",000517,荣安地产,1993-08-06,浙江,宁波市,K 房地产,www.rongan.com.cn
+szA_000518,江苏四环生物股份有限公司,"JIANGSU SIHUAN BIOENGINEERING CO.,LTD",000518,四环生物,1993-09-08,江苏,无锡市,C 制造业,www.shsw.com.cn
+szA_000519,中兵红箭股份有限公司,"NORTH INDUSTRIES GROUP RED ARROW CO., LTD",000519,中兵红箭,1993-10-08,湖南,湘潭市,C 制造业,www.yhdle.com
+szA_000520,长航凤凰股份有限公司,"Chang Jiang Shipping Group Phoenix Co.,Ltd",000520,长航凤凰,1993-10-25,湖北,武汉市,G 运输仓储,www.csc-hy.com.cn
+szA_000521,合肥美菱股份有限公司,"HEFEI MEILING CO.,LTD.",000521,美菱电器,1993-10-18,安徽,合肥市,C 制造业,www.meiling.com
+szA_000523,广州市浪奇实业股份有限公司,"LONKEY INDUSTRIAL CO.,LTD. GUANGZHOU",000523,广州浪奇,1993-11-08,广东,广州市,C 制造业,www.lonkey.com.cn
+szA_000524,广州岭南集团控股股份有限公司,Guangzhou Lingnan Group Holdings Company Limited,000524,岭南控股,1993-11-18,广东,广州市,H 住宿餐饮,www.hoteldongfang.com
+szA_000525,南京红太阳股份有限公司,"NANJING RED SUN CO., LTD",000525,红 太 阳,1993-10-28,江苏,南京市,C 制造业,
+szA_000526,厦门紫光学大股份有限公司,"XIAMEN UNIGROUP XUE CO.,LTD.",000526,*ST紫学,1993-11-01,福建,厦门市,P 教育,
+szA_000528,广西柳工机械股份有限公司,"GUANGXI LIUGONG MACHINERY CO., LTD",000528,柳    工,1993-11-18,广西,柳州市,C 制造业,www.liugong.com
+szA_000529,广东广弘控股股份有限公司,"GUANGDONG GUANGHONG HOLDINGS CO.,LTD.",000529,广弘控股,1993-11-18,广东,广州市,C 制造业,www.ghkg000529.com
+szA_000530,大连冷冻机股份有限公司,"DALIAN REFRIGERATION CO., LTD",000530,大冷股份,1993-12-08,辽宁,大连市,C 制造业,www.daleng.cn
+szA_000531,广州恒运企业集团股份有限公司,"GUANGZHOU HENGYUN ENTERPRISES HOLDING CO.,LTD",000531,穗恒运Ａ,1994-01-06,广东,广州市,D 水电煤气,www.hengyun.com.cn
+szA_000532,珠海华金资本股份有限公司,"Zhuhai Huajin Capital Co., Ltd.",000532,华金资本,1994-01-03,广东,珠海市,S 综合,www.huajinct.com
+szA_000533,广东万家乐股份有限公司,"GUANGDONG MACRO CO.,LTD",000533,万 家 乐,1994-01-03,广东,佛山市,C 制造业,www.macro.com.cn
+szA_000534,万泽实业股份有限公司,"WEDGE INDUSTRIAL CO.,LTD.",000534,万泽股份,1994-01-10,广东,汕头市,K 房地产,
+szA_000536,华映科技（集团）股份有限公司,"CPT TECHNOLOGY (GROUP) CO., LTD",000536,华映科技,1993-11-26,福建,福州市,C 制造业,www.cpttg.com
+szA_000537,天津广宇发展股份有限公司,"TIANJIN GUANGYU DEVELOPMENT CO., LTD",000537,广宇发展,1993-12-10,天津,天津市,K 房地产,www.gyfz000537.com
+szA_000538,云南白药集团股份有限公司,"YUNNAN BAIYAO GROUP CO.,LTD.",000538,云南白药,1993-12-15,云南,昆明市,C 制造业,www.yunnanbaiyao.com.cn
+szA_000539,广东电力发展股份有限公司,"GUANGDONG ELECTRIC POWER DEVELOPMENT CO., LTD",000539,粤电力Ａ,1993-11-26,广东,广州市,D 水电煤气,www.ged.com.cn
+szA_000540,中天金融集团股份有限公司,Zhongtian Financial Group Company Limited,000540,中天金融,1994-02-02,贵州,贵阳市,K 房地产,www.ztcn.cn
+szA_000541,佛山电器照明股份有限公司,"FOSHAN ELECTRICAL AND LIGHTING CO., LTD",000541,佛山照明,1993-11-23,广东,佛山市,C 制造业,www.Chinafsl.Com
+szA_000543,安徽省皖能股份有限公司,"AN HUI WENERGY CO.,LTD",000543,皖能电力,1993-12-20,安徽,合肥市,D 水电煤气,www.wenergy.cn
+szA_000544,中原环保股份有限公司,"CENTRAL PLAINS ENVIRONMENT PROTECTION CO.,LTD",000544,中原环保,1993-12-08,河南,郑州市,D 水电煤气,www.cpepgc.com
+szA_000545,金浦钛业股份有限公司,"GPRO TITANIUM INDUSTRY  CO.,LTD",000545,金浦钛业,1993-12-15,吉林,吉林市,C 制造业,
+szA_000546,金圆水泥股份有限公司,"Jinyuan Cement Co.,Ltd",000546,金圆股份,1993-12-15,吉林,长春市,C 制造业,
+szA_000547,航天工业发展股份有限公司,Addsino Co.，Ltd,000547,航天发展,1993-11-30,福建,福州市,C 制造业,http://www.szxrjt.com
+szA_000548,湖南投资集团股份有限公司,"HUNAN INVESTMENT GROUP CO.,LTD",000548,湖南投资,1993-12-20,湖南,长沙市,G 运输仓储,www.hntz.com.cn
+szA_000550,江铃汽车股份有限公司,"JIANGLING MOTORS CO., LTD",000550,江铃汽车,1993-12-01,江西,南昌市,C 制造业,www.jmc.com.cn
+szA_000551,创元科技股份有限公司,"CREATE TECHNOLOGY & SCIENCE CO.,LTD",000551,创元科技,1994-01-06,江苏,苏州市,S 综合,www.000551.cn
+szA_000552,甘肃靖远煤电股份有限公司,"GANSU JINGYUAN COAL INDUSTRY AND ELECTRICITY POWER CO., LTD",000552,靖远煤电,1994-01-06,甘肃,白银市,B 采矿业,
+szA_000553,湖北沙隆达股份有限公司,"HUBEI SANONDA CO., LTD",000553,沙隆达Ａ,1993-12-03,湖北,荆州市,C 制造业,www.sanonda.cn
+szA_000554,中国石化山东泰山石油股份有限公司,"SINOPEC SHANDONG TAISHAN PETROLEUM CO.,LTD.",000554,泰山石油,1993-12-15,山东,泰安市,F 批发零售,
+szA_000555,神州数码信息服务股份有限公司,Digital China Information Service Company Ltd.,000555,神州信息,1994-04-08,广东,深圳市,I 信息技术,www.dcits.com
+szA_000557,宁夏西部创业实业股份有限公司,"Ningxia Western Venture Industrial Co., Ltd.",000557,西部创业,1994-06-17,宁夏,银川市,G 运输仓储,
+szA_000558,莱茵达体育发展股份有限公司,"LANDER SPORTS DEVELOPMENT  CO.,LTD",000558,莱茵体育,1994-05-09,浙江,杭州市,K 房地产,www.lander.com.cn
+szA_000559,万向钱潮股份有限公司,"WANXIANG QIANCHAO CO.,LTD",000559,万向钱潮,1994-01-10,浙江,杭州市,C 制造业,www.wxqc.com.cn
+szA_000560,昆明百货大楼(集团)股份有限公司,"KUNMING SINOBRIGHT(GROUP) CO.,LTD.",000560,昆百大Ａ,1994-02-02,云南,昆明市,F 批发零售,000560.kunbuy.com
+szA_000561,陕西烽火电子股份有限公司,"Shaanxi Fenghuo Electronics Co., Ltd.",000561,烽火电子,1994-05-09,陕西,宝鸡市,C 制造业,www.fenghuo.cn
+szA_000563,陕西省国际信托股份有限公司,"SHAANXI INTERNATIONAL TRUST CO.,LTD.",000563,陕国投Ａ,1994-01-10,陕西,西安市,J 金融业,www.siti.com.cn
+szA_000564,供销大集集团股份有限公司,"CCOOP GROUP CO.,LTD",000564,供销大集,1994-01-10,陕西,西安市,F 批发零售,www.gongxiaodaji.com
+szA_000565,重庆三峡油漆股份有限公司,"CHONGQING SANXIA PAINTS CO.,LTD",000565,渝三峡Ａ,1994-04-08,重庆,重庆市,C 制造业,www.sanxia.com
+szA_000566,海南海药股份有限公司,"HAINAN HAIYAO CO.,LTD",000566,海南海药,1994-05-25,海南,海口市,C 制造业,www.haiyao.com.cn
+szA_000567,海南海德实业股份有限公司,"HAINAN HAIDE INDUSTRY CO.,LTD",000567,海德股份,1994-05-25,海南,海口市,K 房地产,www.000567.com
+szA_000568,泸州老窖股份有限公司,"LUZHOU LAO JIAO CO.,LTD",000568,泸州老窖,1994-05-09,四川,泸州市,C 制造业,www.lzlj.com.cn
+szA_000570,常柴股份有限公司,"CHANGCHAI COMPANY,LIMITED",000570,苏常柴Ａ,1994-07-01,江苏,常州市,C 制造业,www.changchai.com.cn
+szA_000571,新大洲控股股份有限公司,"SUNDIRO HOLDING CO., LTD.",000571,新大洲Ａ,1994-05-25,海南,海口市,B 采矿业,www.sundiro.com
+szA_000572,海马汽车集团股份有限公司,"HAIMA AUTOMOBILE GROUP  CO.,LTD",000572,海马汽车,1994-08-08,海南,海口市,C 制造业,www.000572.com
+szA_000573,东莞宏远工业区股份有限公司,"DONGGUAN WINNERWAY INDUSTRIAL ZONE CO.,LTD",000573,粤宏远Ａ,1994-08-15,广东,东莞市,K 房地产,www.winnerway.com.cn
+szA_000576,江门甘蔗化工厂(集团)股份有限公司,"JIANGMEN SUGAR CANE CHEMICAL FACTORY（GROUP）CO.,LTD",000576,广东甘化,1994-09-07,广东,江门市,C 制造业,www.gdganhua.com
+szA_000581,无锡威孚高科技集团股份有限公司,"WEIFU HIGH-TECHNOLOGY GROUP CO.,LTD.",000581,威孚高科,1998-09-24,江苏,无锡市,C 制造业,www.weifu.com.cn
+szA_000582,北部湾港股份有限公司,"Beibu Gulf Port Co., Ltd.",000582,北部湾港,1995-11-02,广西,北海市,G 运输仓储,www.bbwport.cn
+szA_000584,江苏哈工智能机器人股份有限公司,"JIANGSU HAGONG INTELLIGENT ROBOT CO.,LTD",000584,哈工智能,1995-11-28,江苏,无锡市,C 制造业,www.hgzngroup.com.cn
+szA_000585,东北电气发展股份有限公司,NORTHEAST ELECTRIC DEVELOPMENT COMPANY LIMITED,000585,东北电气,1995-12-13,江苏,常州市,C 制造业,www.nee.com.cn;www.nee.hk
+szA_000586,四川汇源光通信股份有限公司,"SICHUAN HUIYUAN OPTICAL COMMUNICATIONS CO.,LTD.",000586,汇源通信,1995-12-20,四川,成都市,C 制造业,www.schy.com.cn
+szA_000587,金洲慈航集团股份有限公司,"JINZHOU CIHANG GROUP CO., LTD",000587,金洲慈航,1996-04-25,黑龙江,伊春市,C 制造业,www.goldzb.com
+szA_000589,贵州轮胎股份有限公司,"GUI ZHOU TYRE CO., LTD",000589,黔轮胎Ａ,1996-03-08,贵州,贵阳市,C 制造业,www.gztire.com
+szA_000590,启迪古汉集团股份有限公司,"TUS-GUHAN GROUP CORP., LTD.",000590,启迪古汉,1996-01-19,湖南,衡阳市,C 制造业,www.guhan.com
+szA_000591,中节能太阳能股份有限公司,"CECEP Solar Energy Co.,Ltd.",000591,太阳能,1996-02-08,重庆,重庆市,D 水电煤气,www.cecsec.cn
+szA_000592,中福海峡（平潭）发展股份有限公司,ZHONGFU STRAITS (PINGTAN) DEVELOPMENT COMPANY LIMITED,000592,平潭发展,1996-03-27,福建,福州市,A 农林牧渔,www.000592.com
+szA_000593,四川大通燃气开发股份有限公司,"SICHUAN DATONG GAS DEVELOPMENT CO.,LTD.",000593,大通燃气,1996-03-12,四川,成都市,D 水电煤气,www.dtrq.com
+szA_000595,宝塔实业股份有限公司,BAOTA INDUSTRY CO.，LTD.,000595,*ST宝实,1996-04-19,宁夏,银川市,C 制造业,www.nxz.com.cn
+szA_000596,安徽古井贡酒股份有限公司,"ANHUI GUJING DISTILLERY CO.,LTD",000596,古井贡酒,1996-09-27,安徽,亳州市,C 制造业,www.gujing.com
+szA_000597,东北制药集团股份有限公司,"NORTHEAST PHARMACEUTICAL GROUP CO.,LTD",000597,东北制药,1996-05-23,辽宁,沈阳市,C 制造业,www.nepharm.com.cn
+szA_000598,成都市兴蓉环境股份有限公司,"Chengdu Xingrong Environment Co., Ltd.",000598,兴蓉环境,1996-05-29,四川,成都市,D 水电煤气,www.cdxrec.com
+szA_000599,青岛双星股份有限公司,"QINGDAO DOUBLESTAR CO,LTD.",000599,青岛双星,1996-04-30,山东,青岛市,C 制造业,www.doublestar.com.cn
+szA_000600,河北建投能源投资股份有限公司,"JOINTO ENERGY INVESTMENT CO., LTD. HEBEI",000600,建投能源,1996-06-06,河北,石家庄市,D 水电煤气,www.jei.com.cn
+szA_000601,广东韶能集团股份有限公司,"GUANGDONG SHAONENG GROUP CO.,LTD",000601,韶能股份,1996-08-30,广东,韶关市,D 水电煤气,www.shaoneng.com.cn;www.sn0601.com
+szA_000603,盛达矿业股份有限公司,"Shengda Mining CO.,LTD",000603,盛达矿业,1996-08-23,北京,北京市,B 采矿业,www.sdjt.com
+szA_000605,渤海水业股份有限公司,"BOHAI WATER  INDUSTRY CO.,LTD",000605,渤海股份,1996-09-13,北京,北京市,D 水电煤气,www.bohai-water.com
+szA_000606,神州易桥信息服务股份有限公司,"Shenzhou Yiqiao Information Service Co, Ltd",000606,神州易桥,1996-10-04,青海,西宁市,C 制造业,www.eqiao.com.cn
+szA_000607,浙江华媒控股股份有限公司,"Zhejiang Huamei Holding CO., LTD.",000607,华媒控股,1996-08-30,浙江,杭州市,R 文化传播,www.000607.cn
+szA_000608,阳光新业地产股份有限公司,"YANGGUANG CO.,LTD.",000608,阳光股份,1996-09-19,广西,南宁市,K 房地产,www.yangguangxinye.com
+szA_000609,北京绵石投资集团股份有限公司,Beijing Soft Rock Investment Group Corporation,000609,绵石投资,1996-10-10,北京,北京市,S 综合,www.mainstreets.cn
+szA_000610,西安旅游股份有限公司,"Xi""an Tourism Co., Ltd.",000610,西安旅游,1996-09-26,陕西,西安市,N 公共环保,www.xatourism.com
+szA_000611,内蒙古天首科技发展股份有限公司,"Inner Mongolia TianShou Technology&development, CO.，LTD.",000611,天首发展,1996-10-08,内蒙古,包头市,C 制造业,
+szA_000612,焦作万方铝业股份有限公司,"JiaoZuo WanFang Aluminum Manufacturing Co., Ltd",000612,焦作万方,1996-09-26,河南,焦作市,C 制造业,www.jzwfly.cn
+szA_000613,海南大东海旅游中心股份有限公司,"HAINAN DADONGHAI TOURISM CENTRE (HOLDINGS) CO.,LTD.",000613,*ST东海A,1997-01-28,海南,三亚市,H 住宿餐饮,
+szA_000615,京汉实业投资股份有限公司,"KINGHAND INDUSTRIAL INVESTMENT CO.,LTD",000615,京汉股份,1996-10-16,湖北,襄阳市,K 房地产,www.0615.cn
+szA_000616,海航投资集团股份有限公司,"HNA INVESTMENT GROUP CO.,LTD.",000616,海航投资,1996-11-08,辽宁,大连市,K 房地产,www.hnainvestment.com
+szA_000617,中国石油集团资本股份有限公司,CNPC Capital Company Limited,000617,中油资本,1996-10-22,新疆,克拉玛依市,J 金融业,www.jichai.com
+szA_000619,芜湖海螺型材科技股份有限公司,"WUHU CONCH PROFILES AND SCIENCE CO., LTD",000619,海螺型材,1996-10-23,安徽,芜湖市,C 制造业,profile.conch.cn
+szA_000620,新华联文化旅游发展股份有限公司,"MACROLINK CULTURALTAINMENT DEVELOPMENT CO., LTD.",000620,新华联,1996-10-29,北京,北京市,K 房地产,
+szA_000622,恒立实业发展集团股份有限公司,"HENGLI INDUSTRIAL DEVELOPMENT GROUP CO.,LTD",000622,恒立实业,1996-11-07,湖南,岳阳市,C 制造业,www.yyhengli.com
+szA_000623,吉林敖东药业集团股份有限公司,"Jilin Aodong Pharmaceutical Group Co., Ltd.",000623,吉林敖东,1996-10-28,吉林,延边朝鲜族自治州,C 制造业,www.jlaod.com
+szA_000625,重庆长安汽车股份有限公司,Chongqing Changan Automobile Company Limited,000625,长安汽车,1997-06-10,重庆,重庆市,C 制造业,www.changan.com.cn
+szA_000626,远大产业控股股份有限公司,"Grand Industrial Holding Co., Ltd",000626,远大控股,1996-11-28,江苏,连云港市,F 批发零售,www.grand-holding.cn
+szA_000627,天茂实业集团股份有限公司,"HUBEI BIOCAUSE PHARMACEUTICAL CO.,LTD",000627,天茂集团,1996-11-12,湖北,荆门市,J 金融业,www.biocause.com
+szA_000628,成都高新发展股份有限公司,"CHENGDU Hi-Tech DEVELOPMENT GR0UP CO.,LTD",000628,高新发展,1996-11-18,四川,成都市,E 建筑业,www.cdgxfz.com
+szA_000629,攀钢集团钒钛资源股份有限公司,"Pangang Group Vanadium Titanium & Resources Co., Ltd.",000629,*ST钒钛,1996-11-15,四川,攀枝花市,B 采矿业,www.pzhsteel.com.cn/pgvt/
+szA_000630,铜陵有色金属集团股份有限公司,"Tongling Nonferrous Metals Group Co.,Ltd.",000630,铜陵有色,1996-11-20,安徽,铜陵市,C 制造业,www.tlys.cn
+szA_000631,顺发恒业股份公司,SHUNFA HENGYE Corporation,000631,顺发恒业,1996-11-22,吉林,长春市,K 房地产,www.sfhy.cn
+szA_000632,福建三木集团股份有限公司,"FUJIAN SANMU GROUP CO.,LTD",000632,三木集团,1996-11-21,福建,福州市,F 批发零售,www.san-mu.com
+szA_000633,沈阳合金投资股份有限公司,"SHENYANG HEJIN HOLDING CO., LTD",000633,合金投资,1996-11-12,新疆,和田地区,C 制造业,www.hjinv.com
+szA_000635,宁夏英力特化工股份有限公司,"NINGXIA YINGLITE CHEMICALS CO.,LTD",000635,英 力 特,1996-11-20,宁夏,石嘴山市,C 制造业,www.yinglitechem.com
+szA_000636,广东风华高新科技股份有限公司,"GUANDDONG FENGHUA ADVANCED TECHNOLOGY (HOLDING) CO., LTD",000636,风华高科,1996-11-29,广东,肇庆市,C 制造业,www.fenghua-advanced.com
+szA_000637,茂名石化实华股份有限公司,"MAOMING PETRO-CHEMICAL SHIHUA CO.,LTD",000637,茂化实华,1996-11-14,广东,茂名市,C 制造业,www.mhsh0637.com.cn
+szA_000638,万方城镇投资发展股份有限公司,"Vanfund Urban Investment＆Development Co.,Ltd.",000638,万方发展,1996-11-26,辽宁,沈阳市,F 批发零售,www.vanfund.cn
+szA_000639,西王食品股份有限公司,"Xiwang Foodstuffs Co.,Ltd.",000639,西王食品,1996-11-26,山东,滨州市,C 制造业,www.xwsp.cc
+szA_000650,仁和药业股份有限公司,"RENHE PHARMACY CO.,LTD",000650,仁和药业,1996-12-10,江西,南昌市,C 制造业,www.renheyaoye.com
+szA_000651,珠海格力电器股份有限公司,"GREE ELECTRIC APPLIANCES,INC.OF ZHUHAI CO.,LTD",000651,格力电器,1996-11-18,广东,珠海市,C 制造业,www.gree.com.cn
+szA_000652,天津泰达股份有限公司,"Tianjin TEDA CO., Ltd.",000652,泰达股份,1996-11-28,天津,天津市,F 批发零售,www.tedastock.com
+szA_000655,山东金岭矿业股份有限公司,"SHANDONG JINLING MINING CO.,LTD",000655,金岭矿业,1996-11-28,山东,淄博市,B 采矿业,www.sdjlky.com
+szA_000656,金科地产集团股份有限公司,"JINKE PROPERTY GROUP CO., LTD",000656,金科股份,1996-11-28,重庆,重庆市,K 房地产,
+szA_000657,中钨高新材料股份有限公司,"CHINA TUNGSTEN AND HIGHTECH MATERALS CO.,LTD",000657,中钨高新,1996-12-05,海南,海口市,C 制造业,
+szA_000659,珠海中富实业股份有限公司,"ZHUHAI ZHONGFU ENTERPRISE CO.,LTD",000659,*ST中富,1996-12-03,广东,珠海市,C 制造业,www.zhongfu.com.cn
+szA_000661,长春高新技术产业（集团）股份有限公司,Changchun High & New Technology Industry (Group) Inc.,000661,长春高新,1996-12-18,吉林,长春市,C 制造业,www.cchn.com.cn
+szA_000662,天夏智慧城市科技股份有限公司,TEAMAX SMART CITY TECHNOLOGY CORPORATION LIMITED,000662,天夏智慧,1996-12-16,广西,梧州市,I 信息技术,www.txgis.com
+szA_000663,福建省永安林业(集团)股份有限公司,"FUJIAN YONGAN FORESTRY (GROUP) JOINT-STOCK CO.,LTD",000663,永安林业,1996-12-06,福建,三明市,C 制造业,www.yonglin.com
+szA_000665,湖北省广播电视信息网络股份有限公司,"Hubei Radio & Television Information Network Co., Ltd.",000665,湖北广电,1996-12-10,湖北,武汉市,R 文化传播,www.hrtn.net
+szA_000666,经纬纺织机械股份有限公司,"JINGWEI TEXTILE MACHINERY CO.,LTD.",000666,经纬纺机,1996-12-10,北京,北京市,C 制造业,www.jwgf.com
+szA_000667,美好置业集团股份有限公司,"Myhome Real Estate Development Group CO.,LTD.",000667,美好置业,1996-12-05,云南,昆明市,K 房地产,www.000667.com
+szA_000668,荣丰控股集团股份有限公司,RONGFENG HOLDING GROUP CO.，LTD,000668,荣丰控股,1996-12-10,上海,上海市,K 房地产,www.rfholding.cn
+szA_000669,金鸿控股集团股份有限公司,"Jinhong Holding Group Co., Ltd.",000669,金鸿控股,1996-12-10,吉林,吉林市,D 水电煤气,www.000669.com
+szA_000670,盈方微电子股份有限公司,"Infotmic  co.,ltd.",000670,盈方微,1996-12-17,湖北,荆州市,C 制造业,www.infotm.com
+szA_000671,阳光城集团股份有限公司,"Yango Group Co., Ltd",000671,阳 光 城,1996-12-18,福建,福州市,K 房地产,www.yango.com.cn
+szA_000672,甘肃上峰水泥股份有限公司,"GANSU SHANGFENG CEMENT CO., LTD",000672,上峰水泥,1996-12-18,甘肃,白银市,C 制造业,www.sfsn.cn
+szA_000673,当代东方投资股份有限公司,"Lead Eastern Investment Co.,Ltd",000673,当代东方,1997-01-24,山西,大同市,R 文化传播,www.sz000673.com
+szA_000676,智度科技股份有限公司,"Genimous Technology CO.,LTD",000676,智度股份,1996-12-24,河南,郑州市,I 信息技术,www.genimous.com
+szA_000677,恒天海龙股份有限公司,"CHTC HELON CO.,LTD.",000677,恒天海龙,1996-12-26,山东,潍坊市,C 制造业,www.helon.cn
+szA_000678,襄阳汽车轴承股份有限公司,"XIANGYANG AUTOMOBILE BEARING Co., Ltd",000678,襄阳轴承,1997-01-06,湖北,襄阳市,C 制造业,www.zxy.com.cn
+szA_000679,大连友谊(集团)股份有限公司,"DALIAN FRIENDSHIP (Group)Co.,Ltd.",000679,大连友谊,1997-01-24,辽宁,大连市,F 批发零售,www.dlyy.com.cn
+szA_000680,山推工程机械股份有限公司,"SHANTUI CONSTRUCTION MACHINERY CO.,LTD",000680,山推股份,1997-01-22,山东,济宁市,C 制造业,www.shantui.com
+szA_000681,视觉（中国）文化发展股份有限公司,"VISUAL CHINA GROUP CO.,LTD.",000681,视觉中国,1997-01-21,江苏,常州市,R 文化传播,www.chinafareast.com
+szA_000682,东方电子股份有限公司,"Dongfang Electronics Co.,Ltd",000682,东方电子,1997-01-21,山东,烟台市,C 制造业,www.dongfangelec.com
+szA_000683,内蒙古远兴能源股份有限公司,INNER MONGOLIA YUAN XING ENERGY COMPANY LIMITED,000683,远兴能源,1997-01-31,内蒙古,鄂尔多斯市,C 制造业,www.yuanxing.com
+szA_000685,中山公用事业集团股份有限公司,"ZHONGSHAN PUBLIC UTILITIES Group CO.,LTD.",000685,中山公用,1997-01-23,广东,中山市,D 水电煤气,www.zpug.net
+szA_000686,东北证券股份有限公司,"NORTHEAST SECURITIES CO.,LTD.",000686,东北证券,1997-02-27,吉林,长春市,J 金融业,www.nesc.cn
+szA_000687,华讯方舟股份有限公司,"Huaxun Fangzhou Co.,Ltd",000687,华讯方舟,1997-02-21,河北,保定市,C 制造业,www.huaxunchina.com.cn
+szA_000688,建新矿业股份有限责任公司,"Jianxin Mining Co.,LTD",000688,建新矿业,1997-01-20,重庆,重庆市,B 采矿业,www.jianxin0688.com
+szA_000690,广东宝丽华新能源股份有限公司,"GUANGDONG  BAOLIHUA  NEW  ENERGY  STOCK  CO., LTD.",000690,宝新能源,1997-01-28,广东,梅州市,D 水电煤气,www.baolihua.com.cn
+szA_000691,海南亚太实业发展股份有限公司,HAINAN YATAI INDUSTRIAL DEVELOPMENT  CO.，LTD.,000691,ST亚太,1997-02-28,甘肃,兰州市,K 房地产,www.ytsy000691.com
+szA_000692,沈阳惠天热电股份有限公司,"SHENYANG HUITIAN THERMAL POWER CO.,LTD",000692,惠天热电,1997-02-27,辽宁,沈阳市,D 水电煤气,www.htrd.cn
+szA_000693,成都华泽钴镍材料股份有限公司,"CHENGDU HUAZE COBALT&NICKEL MATERIAL CO., LTD",000693,*ST华泽,1997-02-26,四川,成都市,B 采矿业,www.ufg.com.cn
+szA_000695,天津滨海能源发展股份有限公司,"TIANJIN BINHAI ENERGY & DEVELOPMENT CO.,LTD",000695,滨海能源,1997-02-18,天津,天津市,D 水电煤气,www.binhaienergy.com
+szA_000697,陕西炼石有色资源股份有限公司,"Shaanxi Ligeance Mineral Resources Co.,Ltd.",000697,炼石有色,1997-03-25,陕西,咸阳市,C 制造业,www.lsmin.com
+szA_000698,沈阳化工股份有限公司,"SHENYANG CHEMICAL INDUSTRY CO.,LTD",000698,沈阳化工,1997-02-20,辽宁,沈阳市,C 制造业,www.sychem.com
+szA_000700,江南模塑科技股份有限公司,"JIANGNAN MOULD & PLASTIC TECHNOLOGY CO.,LTD",000700,模塑科技,1997-02-28,江苏,无锡市,C 制造业,www.jnmpt.com
+szA_000701,厦门信达股份有限公司,XIAMEN XINDECO LTD.,000701,厦门信达,1997-02-26,福建,厦门市,F 批发零售,www.xindeco.com
+szA_000702,湖南正虹科技发展股份有限公司,"Hunan Zhenghong Science and Technology Develop Co., Ltd",000702,正虹科技,1997-03-18,湖南,岳阳市,C 制造业,www.chinazhjt.com.cn
+szA_000703,恒逸石化股份有限公司,"HENGYI PETROCHEMICAL CO., LTD",000703,恒逸石化,1997-03-28,广西,北海市,C 制造业,www.hengyishihua.com
+szA_000705,浙江震元股份有限公司,"ZHEJIANG ZHENYUAN SHARE CO.,LTD.",000705,浙江震元,1997-04-10,浙江,绍兴市,F 批发零售,www.zjzy.com
+szA_000707,湖北双环科技股份有限公司,"HUBEI SHUANGHUAN SCIENCE AND TECHNOLOGYSTOCK CO.,LTD",000707,双环科技,1997-04-15,湖北,孝感市,C 制造业,www.hbshkj.cn
+szA_000708,大冶特殊钢股份有限公司,"DAYE SPECIAL STEEL CO .,LTD",000708,大冶特钢,1997-03-26,湖北,黄石市,C 制造业,www.dayesteel.com.cn
+szA_000709,河钢股份有限公司,HESTEEL COMPANY LIMITED,000709,河钢股份,1997-04-16,河北,石家庄市,C 制造业,www.hebgtgf.com
+szA_000710,成都市贝瑞和康基因技术股份有限公司,"Berry Genomics Co.,Ltd",000710,贝瑞基因,1997-04-22,四川,成都市,C 制造业,www.txyb.com.cn
+szA_000711,京蓝科技股份有限公司,"Kingland Technology Co.,Ltd.",000711,京蓝科技,1997-04-11,黑龙江,哈尔滨市,A 农林牧渔,www.kinglandgroup.com
+szA_000712,广东锦龙发展股份有限公司,GUANGDONG GOLDEN DRAGON DEVELOPMENT INC.,000712,锦龙股份,1997-04-15,广东,东莞市,J 金融业,www.jlgf.com
+szA_000713,合肥丰乐种业股份有限公司,"HEFEI FENGLE SEED CO.,LTD.",000713,丰乐种业,1997-04-22,安徽,合肥市,A 农林牧渔,www.fengle.com.cn
+szA_000715,中兴-沈阳商业大厦(集团)股份有限公司,"ZHONGXING SHENYANG COMMERCIAL BUILDING GROUP CO.,LTD",000715,中兴商业,1997-05-08,辽宁,沈阳市,F 批发零售,www.zxbusiness.com
+szA_000716,南方黑芝麻集团股份有限公司,NANFANG BLACK SESAME GR0UP CO.，LTD,000716,黑芝麻,1997-04-18,广西,南宁市,C 制造业,www.nanfangfood.com
+szA_000717,广东韶钢松山股份有限公司,"SGIS Songshan Co., Ltd.",000717,韶钢松山,1997-05-08,广东,韶关市,C 制造业,www.sgss.com.cn
+szA_000718,苏宁环球股份有限公司,"Suning Universal Co.,Ltd.",000718,苏宁环球,1997-04-08,吉林,吉林市,K 房地产,www.suning-universal.com
+szA_000719,中原大地传媒股份有限公司,"Central China Land Media CO.,LTD",000719,大地传媒,1997-03-31,河南,焦作市,R 文化传播,
+szA_000720,山东新能泰山发电股份有限公司,"SHANDONG XINNENG TAISHAN POWER GENERATION CO.,LTD.",000720,新能泰山,1997-05-09,山东,泰安市,D 水电煤气,www.sz000720.com
+szA_000721,西安饮食股份有限公司,"Xi""AN  CATERING  CO., LTD.",000721,西安饮食,1997-04-30,陕西,西安市,H 住宿餐饮,www.xcsg.com
+szA_000722,湖南发展集团股份有限公司,"HUNAN DEVELOPMENT GROUP CO.,LTD",000722,湖南发展,1997-05-22,湖南,衡阳市,D 水电煤气,www.hnfzgf.com
+szA_000723,山西美锦能源股份有限公司,SHANXI MEIJIN ENERGY CO.，LTD,000723,美锦能源,1997-05-15,山西,太原市,C 制造业,www.mjenergy.com
+szA_000725,京东方科技集团股份有限公司,"BOE TECHNOLOGY GROUP CO., LTD",000725,京东方Ａ,2001-01-12,北京,北京市,C 制造业,www.boe.com.cn
+szA_000726,鲁泰纺织股份有限公司,"LU THAI TEXTILE CO., LTD",000726,鲁  泰Ａ,2000-12-25,山东,淄博市,C 制造业,www.lttc.com.cn
+szA_000727,南京华东电子信息科技股份有限公司,"NANJING HUADONG ELECTRONICS INFORMATION & TECHNOLOGY CO.,LTD",000727,华东科技,1997-05-20,江苏,南京市,C 制造业,www.huadongtech.com
+szA_000728,国元证券股份有限公司,GUOYUAN SECURITIES COMPANY LIMITED,000728,国元证券,1997-06-16,安徽,合肥市,J 金融业,www.gyzq.com.cn
+szA_000729,北京燕京啤酒股份有限公司,"BEIJING YANJING BREWERY CO.,LTD",000729,燕京啤酒,1997-07-16,北京,北京市,C 制造业,www.yanjing.com.cn
+szA_000731,四川美丰化工股份有限公司,"SICHUAN MEIFENG CHEMICAL INDUSTRY CO., LTD",000731,四川美丰,1997-06-17,四川,遂宁市,C 制造业,www.scmeif.com
+szA_000732,泰禾集团股份有限公司,"THAIHOT GROUP CO.,LTD",000732,泰禾集团,1997-07-04,福建,三明市,K 房地产,www.thaihot.com.cn
+szA_000733,中国振华(集团)科技股份有限公司,"CHINA ZHENHUA(GROUP) SCIENCE& TECHNOLOGY CO.,LTD",000733,振华科技,1997-07-03,贵州,贵阳市,C 制造业,www.czst.com.cn
+szA_000735,罗牛山股份有限公司,"Luoniushan Co., Ltd.",000735,罗 牛 山,1997-06-11,海南,海口市,A 农林牧渔,www.luoniushan.com
+szA_000736,中房地产股份有限公司,China Real Estate Corperation Limited,000736,中房地产,1997-04-25,重庆,重庆市,K 房地产,www.china-propertyholding.com/inde/index.asp
+szA_000737,南风化工集团股份有限公司,"NAFINE CHEMICAL INDUSTRY GROUP CO.,LTD",000737,南风化工,1997-04-28,山西,运城市,C 制造业,www.nafine.com
+szA_000738,中国航发动力控制股份有限公司,"AECC AERO-ENGINE CONTROL CO.,LTD.",000738,航发控制,1997-06-26,江苏,无锡市,C 制造业,www.aaec.com.cn
+szA_000739,普洛药业股份有限公司,"Apeloa Pharmaceutical Co.,Ltd.",000739,普洛药业,1997-05-09,浙江,金华市,C 制造业,www.apeloa.com
+szA_000750,国海证券股份有限公司,"SEALAND SECURITIES CO., LTD.",000750,国海证券,1997-07-09,广西,桂林市,J 金融业,www.ghzq.com.cn
+szA_000751,葫芦岛锌业股份有限公司,"HULUDAO ZINC INDUSTRY CO.,LTD",000751,锌业股份,1997-06-26,辽宁,葫芦岛市,C 制造业,www.hldxygf.com
+szA_000752,西藏银河科技发展股份有限公司,"TIBET GALAXY SCIENCE & TECHNOLOGY DEVELOPMENT CO.,LTD",000752,西藏发展,1997-06-25,西藏,拉萨市,C 制造业,
+szA_000753,福建漳州发展股份有限公司,"Fujian Zhangzhou Development Co.,Ltd",000753,漳州发展,1997-06-26,福建,漳州市,F 批发零售,www.zzdc.com.cn
+szA_000755,山西三维集团股份有限公司,"SHANXI SANWEI GROUP CO.,LTD",000755,*ST三维,1997-06-27,山西,临汾市,C 制造业,www.sxsanwei.com
+szA_000756,山东新华制药股份有限公司,SHANDONG XINHUA PHARMACEUTICAL COMPANY LIMITED,000756,新华制药,1997-08-06,山东,淄博市,C 制造业,www.xhzy.com
+szA_000757,四川浩物机电股份有限公司,"SICHUAN HAOWU ELECTROMECHANICAL CO.,LTD.",000757,浩物股份,1997-06-27,四川,内江市,C 制造业,www.hwgf757.com
+szA_000758,中国有色金属建设股份有限公司,"China Nonferrous Metal Industry""s Foreign Engineering and Construction Co., Ltd.",000758,中色股份,1997-04-16,北京,北京市,B 采矿业,www.nfc.com.cn
+szA_000759,中百控股集团股份有限公司,"ZHONGBAI HOLDINGS GROUP CO.,LTD.",000759,中百集团,1997-05-19,湖北,武汉市,F 批发零售,www.whzb.com
+szA_000760,斯太尔动力股份有限公司,Steyr Motors corp.,000760,斯太尔,1997-06-27,湖北,荆州市,C 制造业,www.hbbothwin.cn
+szA_000761,本钢板材股份有限公司,"BENGANG STEEL PLATES CO.,LTD",000761,本钢板材,1998-01-15,辽宁,本溪市,C 制造业,
+szA_000762,西藏矿业发展股份有限公司,"TIBET MINERAL DEVELOPMENT CO.,LTD",000762,西藏矿业,1997-07-08,西藏,拉萨市,B 采矿业,
+szA_000766,通化金马药业集团股份有限公司,"TONGHUA GOLDEN-HORSE PHARMACEUTICAL INDUSTRY CO,LTD",000766,通化金马,1997-04-30,吉林,通化市,C 制造业,www.thjm.cn
+szA_000767,山西漳泽电力股份有限公司,"SHANXI ZHANGZE ELECTRIC POWER CO.,LTD",000767,漳泽电力,1997-06-09,山西,太原市,D 水电煤气,www.zhangzepower.com
+szA_000768,中航飞机股份有限公司,"AVIC AIRCRAFT Co.,Ltd.",000768,中航飞机,1997-06-26,陕西,西安市,C 制造业,www.aircraft_co.avic.com
+szA_000776,广发证券股份有限公司,"GF SECURITIES CO.,LTD",000776,广发证券,1997-06-11,广东,广州市,J 金融业,www.gf.com.cn
+szA_000777,中核苏阀科技实业股份有限公司,"SUFA Technology Industry Co.,Ltd.,CNNC.",000777,中核科技,1997-07-10,江苏,苏州市,C 制造业,www.chinasufa.com
+szA_000778,新兴铸管股份有限公司,"XINXING DUCTILE IRON PIPES CO., LTD",000778,新兴铸管,1997-06-06,河北,邯郸市,C 制造业,www.xinxing-pipes.com
+szA_000779,兰州三毛实业股份有限公司,"LANZHOU SANMAO INDUSTRIAL CO.,LTD",000779,三毛派神,1997-05-28,甘肃,兰州市,C 制造业,www.chinapaishen.com
+szA_000780,内蒙古平庄能源股份有限公司,"Inner Mongolia PingZhuang Energy Resources CO.,LTD",000780,*ST平能,1997-06-06,内蒙古,赤峰市,B 采矿业,www.nmgpzny.com
+szA_000782,广东新会美达锦纶股份有限公司,"GUANGDONG XINHUI MEIDA NYLON CO., LTD",000782,美达股份,1997-06-19,广东,江门市,C 制造业,www.meidanylon.com
+szA_000783,长江证券股份有限公司,"Changjiang Securities Co., LTD",000783,长江证券,1997-07-31,湖北,武汉市,J 金融业,www.cjsc.com
+szA_000785,武汉中商集团股份有限公司,"WUHAN ZHONGNAN COMMERCIAL GROUP CO.,LTD",000785,武汉中商,1997-07-11,湖北,武汉市,F 批发零售,www.zhongshang.com.cn
+szA_000786,北新集团建材股份有限公司,BEIJING NEW BUILDING MATERIALS PUBLIC LIMITED COMPANY,000786,北新建材,1997-06-06,北京,北京市,C 制造业,www.bnbm.com.cn
+szA_000788,北大医药股份有限公司,"PKU HealthCare Corp., Ltd.",000788,北大医药,1997-06-16,重庆,重庆市,C 制造业,www.pku-hc.com
+szA_000789,江西万年青水泥股份有限公司,"JIANGXI WANNIANQING CEMENT CO.,LTD",000789,万年青,1997-09-23,江西,上饶市,C 制造业,www.wnq.com.cn
+szA_000790,成都泰合健康科技集团股份有限公司,"Chengdu Taihe health technology group Inc.,Ltd",000790,泰合健康,1998-03-27,四川,成都市,C 制造业,www.huasungrp.com
+szA_000791,甘肃电投能源发展股份有限公司,GEPIC Energy Development Co.， Ltd.,000791,甘肃电投,1997-10-14,甘肃,兰州市,D 水电煤气,www.yoxin.net
+szA_000792,青海盐湖工业股份有限公司,"Qinghai Salt Lake Industry Co., Ltd.",000792,盐湖股份,1997-09-04,青海,海西蒙古族藏族自治州,C 制造业,www.qhyhgf.com
+szA_000793,华闻传媒投资集团股份有限公司,China Media Group,000793,华闻传媒,1997-07-29,海南,海口市,R 文化传播,www.000793.com
+szA_000795,英洛华科技股份有限公司,"INNUOVO TECHNOLOGY CO.,LTD.",000795,英洛华,1997-08-08,山西,太原市,C 制造业,www.twin-tower.com
+szA_000796,海航凯撒旅游集团股份有限公司,"HNA-CAISSA　TRAVEL　GROUP　CO.,LTD.",000796,凯撒旅游,1997-07-03,陕西,宝鸡市,L 商务服务,www.yijituan.com
+szA_000797,中国武夷实业股份有限公司,"CHINA WUYI CO.,LTD",000797,中国武夷,1997-07-15,福建,福州市,K 房地产,www.chinawuyi.com.cn
+szA_000798,中水集团远洋股份有限公司,"CNFC OVERSEAS FISHERIES CO.,LTD",000798,中水渔业,1998-02-12,北京,北京市,A 农林牧渔,www.cofc.com.cn
+szA_000799,酒鬼酒股份有限公司,"JIUGUI LIQUOR CO., LTD.",000799,酒鬼酒,1997-07-18,湖南,湘西土家族苗族自治州,C 制造业,www.jiuguijiu000799.com
+szA_000800,一汽轿车股份有限公司,"FAW CAR CO.,LTD",000800,一汽轿车,1997-06-18,吉林,长春市,C 制造业,www.fawcar.com.cn
+szA_000801,四川九洲电器股份有限公司,"SICHUAN JIUZHOU ELECTRONIC CO., LTD",000801,四川九洲,1998-05-06,四川,绵阳市,C 制造业,www.jiuzhoutech.com
+szA_000802,北京京西文化旅游股份有限公司,"BEIJING JINGXI CULTURE&TOURISM CO.,LTD",000802,北京文化,1998-01-08,北京,北京市,R 文化传播,www.bjwhmedia.com
+szA_000803,四川金宇汽车城(集团)股份有限公司,SICHUAN　JINYU  AUTOMOBILE　CITY（GROUP）CO.，LTD,000803,*ST金宇,1998-03-03,四川,南充市,C 制造业,www.scjycc.com
+szA_000806,北海银河生物产业投资股份有限公司,"Galaxy Biomedical Investment Co.,Ltd.",000806,银河生物,1998-04-16,广西,北海市,C 制造业,www.g-biomed.com
+szA_000807,云南铝业股份有限公司,"YUNNAN ALUMINIUM CO.,LTD",000807,云铝股份,1998-04-08,云南,昆明市,C 制造业,www.ylgf.com
+szA_000809,铁岭新城投资控股股份有限公司,TIELING NEWCITY INVESTMENT HOLDING LIMITED,000809,*ST新城,1998-06-16,辽宁,铁岭市,N 公共环保,www.cdzhonghui.com
+szA_000810,创维数字股份有限公司,"SKYWORTH DIGITAL CO.,LTD.",000810,创维数字,1998-06-02,四川,遂宁市,C 制造业,www.skyworthdigital.com
+szA_000811,烟台冰轮股份有限公司,"YANTAI MOON CO ., LTD",000811,烟台冰轮,1998-05-28,山东,烟台市,C 制造业,www.yantaimoon.cn
+szA_000812,陕西金叶科教集团股份有限公司,"SHAANXI JINYE SCIENCE TECHNOLOGY AND EDUCATION GROUP CO.,LTD",000812,陕西金叶,1998-06-23,陕西,西安市,C 制造业,www.jinyegroup.cn
+szA_000813,德展大健康股份有限公司,Dezhan Healthcare Company Limited,000813,德展健康,1998-05-19,新疆,乌鲁木齐市,C 制造业,www.chinatianshan.com
+szA_000815,中冶美利云产业投资股份有限公司,"MCC MEILI CLOUD COMPUTING INDUSTRY INVESTMENT CO., LTD",000815,美利云,1998-06-09,宁夏,银川市,C 制造业,www.china-meili.com
+szA_000816,江苏农华智慧农业科技股份有限公司,"JIANGSU NONGHUA  INTELLIGENT  AGRICULTURE  TECHNOLOGY  CO.,LTD.",000816,智慧农业,1997-08-18,江苏,盐城市,C 制造业,www.jd.dongyin.com
+szA_000818,方大锦化化工科技股份有限公司,"FANGDA JINHUA CHEMICAL TECHNOLOGY CO.,LTD",000818,方大化工,1997-10-17,辽宁,葫芦岛市,C 制造业,www.fangdachemical.com
+szA_000819,岳阳兴长石化股份有限公司,YUEYANG XINGCHANG PETRO-CHEMICAL CO.，LTD.,000819,岳阳兴长,1997-06-25,湖南,岳阳市,C 制造业,www.yyxc0819.com
+szA_000820,神雾节能股份有限公司,"Shenwu Energy Saving Co., Ltd.",000820,神雾节能,1998-06-30,辽宁,锦州市,C 制造业,www.sw-es.cn
+szA_000821,湖北京山轻工机械股份有限公司,"J.S. Corrugating Machinery Co., Ltd",000821,京山轻机,1998-06-26,湖北,荆门市,C 制造业,www.jspackmach.com
+szA_000822,山东海化股份有限公司,"SHANDONG HAIHUA CO.,LTD",000822,山东海化,1998-07-03,山东,潍坊市,C 制造业,www.chinahaihua.com
+szA_000823,广东汕头超声电子股份有限公司,"GUANGDONG GOWORLD CO., LTD",000823,超声电子,1997-10-08,广东,汕头市,C 制造业,www.gd-goworld.com
+szA_000825,山西太钢不锈钢股份有限公司,SHANXI TAIGANG STAINLESS STEEL CO.LTD,000825,太钢不锈,1998-10-21,山西,太原市,C 制造业,www.tisco.com.cn
+szA_000826,启迪桑德环境资源股份有限公司,"TUS-SOUND ENVIRONMENTAL RESOURCES CO., LTD.",000826,启迪桑德,1998-02-25,湖北,宜昌市,N 公共环保,www.soundenvironmental.cn
+szA_000828,东莞发展控股股份有限公司,"DONGGUAN DEVELOPMENT (HOLDINGS) CO., LTD",000828,东莞控股,1997-06-17,广东,东莞市,G 运输仓储,www.dgholdings.cn
+szA_000829,天音通信控股股份有限公司,"Telling  Telecommunication  Holding  Co.,Ltd.",000829,天音控股,1997-12-02,江西,赣州市,F 批发零售,www.chinatelling.com
+szA_000830,鲁西化工集团股份有限公司,"Luxi  Chemical Group Co.,Ltd.",000830,鲁西化工,1998-08-07,山东,聊城市,C 制造业,www.luxichemical.com
+szA_000831,五矿稀土股份有限公司,"CHINA MINMETALS RARE EARTH CO.,LTD.",000831,五矿稀土,1998-09-11,山西,运城市,C 制造业,www.cmreltd.com
+szA_000833,广西贵糖（集团）股份有限公司,"GUANGXI GUITANG (GROUP) CO., LTD.",000833,贵糖股份,1998-11-11,广西,贵港市,C 制造业,www.Guitang.com
+szA_000835,长城国际动漫游戏股份有限公司,"Great Wall International ACG Co., Ltd.",000835,长城动漫,1999-06-25,四川,成都市,I 信息技术,www.000835.com
+szA_000836,天津鑫茂科技股份有限公司,"TIANJIN XINMAO SCIENCE&TECHNOLOGY CO.,LTD",000836,鑫茂科技,1997-09-29,天津,天津市,C 制造业,www.xinmaokeji.com.cn
+szA_000837,秦川机床工具集团股份公司,"Qinchuan Machine Tool & Tool Group Share Co., Ltd",000837,秦川机床,1998-09-28,陕西,宝鸡市,C 制造业,www.qcde.cn
+szA_000838,财信国兴地产发展股份有限公司,"CASIN Guoxing Property Development Co., Ltd.",000838,财信发展,1997-06-26,北京,北京市,K 房地产,www.casindev.com
+szA_000839,中信国安信息产业股份有限公司,"CITIC GUOAN INFORMATION INDUSTRY CO., LTD",000839,中信国安,1997-10-31,北京,北京市,I 信息技术,www.citicguoaninfo.com
+szA_000848,河北承德露露股份有限公司,"HEBEI CHENGDE LOLO CO.,LTD",000848,承德露露,1997-11-13,河北,承德市,C 制造业,www.lolo.com.cn
+szA_000850,安徽华茂纺织股份有限公司,"ANHUI HUAMAO TEXTILE CO.,LTD",000850,华茂股份,1998-10-07,安徽,安庆市,C 制造业,www.chinahuamao.net
+szA_000851,大唐高鸿数据网络技术股份有限公司,"GOHIGH DATA NETWORKS TECHNOLOGY C0.,LTD",000851,高鸿股份,1998-06-09,贵州,贵阳市,F 批发零售,www.gohigh.com.cn
+szA_000852,中石化石油机械股份有限公司,Sinopec  Oilfield  Equipment  Corporation,000852,石化机械,1998-11-26,湖北,武汉市,C 制造业,sofe.sinopec.com
+szA_000856,唐山冀东装备工程股份有限公司,"TANGSHAN JIDONG EQUIPMENT ENGINEERING CO., LTD.",000856,冀东装备,1998-08-13,河北,唐山市,C 制造业,www.jdzbgc.com
+szA_000858,宜宾五粮液股份有限公司,"WULIANGYE YIBIN CO.,LTD.",000858,五 粮 液,1998-04-27,四川,宜宾市,C 制造业,www.wuliangye.com.cn
+szA_000859,安徽国风塑业股份有限公司,"ANHUI GUOFENG PLASTIC INDUSTRY CO., LTD",000859,国风塑业,1998-11-19,安徽,合肥市,C 制造业,www.guofeng.com
+szA_000860,北京顺鑫农业股份有限公司,"BEIJING SHUNXIN AGRICULTURE CO.,LTD",000860,顺鑫农业,1998-11-04,北京,北京市,C 制造业,www.000860.com
+szA_000861,广东海印集团股份有限公司,"GUANGDONG HIGHSUN GROUP CO.,LTD.",000861,海印股份,1998-10-28,广东,广州市,L 商务服务,www.000861.com
+szA_000862,宁夏银星能源股份有限公司,"Ning Xia Yin Xing Energy Co.,Ltd.",000862,银星能源,1998-09-15,宁夏,银川市,D 水电煤气,www.nxyxny.com.cn
+szA_000863,三湘印象股份有限公司,"SANXIANG IMPRESSION CO.,LTD",000863,三湘印象,1997-09-25,上海,上海市,K 房地产,
+szA_000868,安徽安凯汽车股份有限公司,"ANHUI ANKAI AUTOMOBILE CO.,LTD",000868,安凯客车,1997-07-25,安徽,合肥市,C 制造业,www.ankai.com
+szA_000869,烟台张裕葡萄酿酒股份有限公司,YANTAI CHANGYU PIONEER WINE COMPANY LIMITED,000869,张  裕Ａ,2000-10-26,山东,烟台市,C 制造业,www.changyu.com.cn
+szA_000875,吉林电力股份有限公司,"JILIN ELECTRIC POWER CO.,LTD.",000875,吉电股份,2002-09-26,吉林,长春市,D 水电煤气,www.cpijl.com
+szA_000876,新希望六和股份有限公司,"New Hope Liuhe Co., Ltd.",000876,新 希 望,1998-03-11,四川,绵阳市,C 制造业,www.newhopeagri.com
+szA_000877,新疆天山水泥股份有限公司,"XINJIANG TIANSHAN CEMENT CO.,LTD",000877,天山股份,1999-01-07,新疆,乌鲁木齐市,C 制造业,www.sinoma-tianshan.cn
+szA_000878,云南铜业股份有限公司,"YUNNAN COPPER CO.,LTD.",000878,云南铜业,1998-06-02,云南,昆明市,C 制造业,www.yunnancopper.com
+szA_000880,潍柴重机股份有限公司,"Weichai Heavy Machinery Co., Ltd.",000880,潍柴重机,1998-04-02,山东,潍坊市,C 制造业,www.weichaihm.com
+szA_000881,中广核核技术发展股份有限公司,"CGN Nuclear Technology Development Co., Ltd.",000881,中广核技,1998-09-02,辽宁,大连市,S 综合,www.cdigstock.com
+szA_000882,北京华联商厦股份有限公司,"BEIJING HUALIAN DEPARTMENT STORE CO.,LTD",000882,华联股份,1998-06-16,北京,北京市,L 商务服务,www.beijing-hualian.com
+szA_000883,湖北能源集团股份有限公司,"Hubei Energy Group Co.,Ltd",000883,湖北能源,1998-05-19,湖北,武汉市,D 水电煤气,www.hbny.com.cn
+szA_000885,河南同力水泥股份有限公司,"Henan Tongli Cement Co.,Ltd",000885,同力水泥,1999-03-19,河南,郑州市,C 制造业,www.tlcement.com
+szA_000886,海南高速公路股份有限公司,"HAINAN EXPRESSWAY CO., LTD",000886,海南高速,1998-01-23,海南,海口市,K 房地产,www.hi-expressway.com
+szA_000887,安徽中鼎密封件股份有限公司,"ANHUI ZHONGDING SEALING PARTS CO.,LTD",000887,中鼎股份,1998-12-03,安徽,宣城市,C 制造业,www.zhongdinggroup.com
+szA_000888,峨眉山旅游股份有限公司,"EMEI SHAN TOURISM CO.,LTD",000888,峨眉山Ａ,1997-10-21,四川,乐山市,N 公共环保,www.ems517.com
+szA_000889,茂业通信网络股份有限公司,"Maoye Communication and Network Co.,Ltd",000889,茂业通信,1997-12-18,河北,秦皇岛市,I 信息技术,www.hlsc.com.cn
+szA_000890,江苏法尔胜股份有限公司,"JIANGSU FASTEN CO.,LTD",000890,法 尔 胜,1999-01-19,江苏,无锡市,C 制造业,www.fasten.com.cn
+szA_000892,欢瑞世纪联合股份有限公司,H&R CENTURY UNION CORPORATION,000892,欢瑞世纪,1999-01-15,重庆,重庆市,R 文化传播,www.chinacfc.com
+szA_000893,广州东凌国际投资股份有限公司,"DONLINKS INTERNATIONAL INVESTMENT CO., LTD.",000893,东凌国际,1998-12-24,广东,广州市,C 制造业,www.dongling.cn
+szA_000895,河南双汇投资发展股份有限公司,"HENAN SHUANGHUI INVESTMENT & DEVELOPMENT CO.,LTD",000895,双汇发展,1998-12-10,河南,漯河市,C 制造业,www.shuanghui.net
+szA_000897,天津津滨发展股份有限公司,"TIANJIN JINBIN DEVELOPMENT CO., LTD",000897,津滨发展,1999-04-22,天津,天津市,K 房地产,www.jbdc.com.cn
+szA_000898,鞍钢股份有限公司,"ANGANG STEEL CO.,LTD",000898,鞍钢股份,1997-12-25,辽宁,鞍山市,C 制造业,www.ansteel.com.cn
+szA_000899,江西赣能股份有限公司,"JIANGXI GANNENG CO.,LTD",000899,赣能股份,1997-11-26,江西,南昌市,D 水电煤气,www.000899.com
+szA_000900,现代投资股份有限公司,"XIANDAI INVESTMENT CO., LTD",000900,现代投资,1999-01-28,湖南,长沙市,G 运输仓储,www.xdtz.net
+szA_000901,航天科技控股集团股份有限公司,"AEROSPACE HI-TECH HOLDING GROUP CO., LTD.",000901,航天科技,1999-04-01,黑龙江,哈尔滨市,C 制造业,
+szA_000902,湖北新洋丰肥业股份有限公司,"HUBEI XINYANGFENG FERTILIZER Co., Ltd.",000902,新洋丰,1999-04-08,湖北,荆门市,C 制造业,www.newyf.com
+szA_000903,昆明云内动力股份有限公司,"KUNMING YUNNEI POWER CO., LTD.",000903,云内动力,1999-04-15,云南,昆明市,C 制造业,www.yunneidongli.com
+szA_000905,厦门港务发展股份有限公司,"XIAMEN PORT DEVELOPMENT CO., LTD.",000905,厦门港务,1999-04-29,福建,厦门市,G 运输仓储,www.xmgw.com.cn
+szA_000906,浙商中拓集团股份有限公司,"ZHESHANG Development Group Co.,LTD.",000906,浙商中拓,1999-07-07,湖南,长沙市,F 批发零售,www.zmd.com.cn
+szA_000908,湖南景峰医药股份有限公司,"Hunan Jingfeng Pharmaceutical Co.,Ltd.",000908,景峰医药,1999-02-03,湖南,岳阳市,C 制造业,www.hntane.com
+szA_000909,数源科技股份有限公司,"SOYEA TECHNOLOGY CO., LTD",000909,数源科技,1999-05-07,浙江,杭州市,S 综合,www.soyea.com.cn
+szA_000910,大亚圣象家居股份有限公司,"Dare Power Dekor Home Co.,Ltd.",000910,大亚圣象,1999-06-30,江苏,镇江市,C 制造业,www.dareglobal.com.cn
+szA_000911,南宁糖业股份有限公司,"NANNING SUGAR INDUSTRY CO.,LTD",000911,南宁糖业,1999-05-27,广西,南宁市,C 制造业,www.nnsugar.com
+szA_000912,四川泸天化股份有限公司,"SICHUAN LUTIANHUA CO.,LTD",000912,泸天化,1999-06-03,四川,成都市,C 制造业,www.sclth.com
+szA_000913,浙江钱江摩托股份有限公司,"ZHEJIANG QIANJIANG MOTORCYCLE CO.,LTD.",000913,钱江摩托,1999-05-14,浙江,台州市,C 制造业,www.qjmotor.com
+szA_000915,山东山大华特科技股份有限公司,"SHANDONG SHANDA WIT SCIENCE AND TECHNOLOGY CO., LTD",000915,山大华特,1999-06-09,山东,临沂市,C 制造业,www.sd-wit.com
+szA_000916,华北高速公路股份有限公司,"HUABEI EXPRESSWAY CO.,LTD",000916,华北高速,1999-09-27,北京,北京市,G 运输仓储,www.hbgsgl.com.cn
+szA_000917,湖南电广传媒股份有限公司,"HUNAN TV&BROADCAST INTERMEDIARY CO., LTD.",000917,电广传媒,1999-03-25,湖南,长沙市,I 信息技术,www.tik.com.cn
+szA_000918,嘉凯城集团股份有限公司,"China Calxon Group Co., Ltd.",000918,嘉凯城,1999-07-20,浙江,杭州市,K 房地产,www.calxon-group.com
+szA_000919,金陵药业股份有限公司,"JINLING PHARMACEUTICAL CO.,LTD",000919,金陵药业,1999-11-18,江苏,南京市,C 制造业,www.jlyy000919.com
+szA_000920,南方汇通股份有限公司,"SOUTH HUITON CO.,LTD",000920,南方汇通,1999-06-16,贵州,贵阳市,C 制造业,www.crrcgc.cc/ht
+szA_000921,海信科龙电器股份有限公司,"HISENSE KELON ELECTRICAL HOLDINGS CO., LTD",000921,海信科龙,1999-07-13,广东,佛山市,C 制造业,www.kelon.com
+szA_000922,哈尔滨电气集团佳木斯电机股份有限公司,"Harbin Electric Corporation Jiamusi Electric Machine CO.,Ltd",000922,*ST佳电,1999-06-18,黑龙江,佳木斯市,C 制造业,www.jemlc.com
+szA_000923,河北宣化工程机械股份有限公司,"Xuanhua Construction Machinery Co., Ltd",000923,河北宣工,1999-07-14,河北,张家口市,C 制造业,www.hbxg.com
+szA_000925,浙江众合科技股份有限公司,"UniTTEC Co., Ltd.",000925,众合科技,1999-06-11,浙江,杭州市,C 制造业,www.unitedmne.com
+szA_000926,湖北福星科技股份有限公司,"HUBEI FUXING SCIENCE AND TECHNOLOGY CO.,LTD",000926,福星股份,1999-06-18,湖北,汉川市,K 房地产,www.chinafxkj.com
+szA_000927,天津一汽夏利汽车股份有限公司,"TIANJIN FAW XIALI AUTOMOBILE CO.,LTD",000927,一汽夏利,1999-07-27,天津,天津市,C 制造业,www.tjfaw.com.cn
+szA_000928,中钢国际工程技术股份有限公司,"Sinosteel Engineering & Technology Co., Ltd.",000928,中钢国际,1999-03-12,吉林,吉林市,E 建筑业,mecc.sinosteel.com
+szA_000929,兰州黄河企业股份有限公司,"LANZHOU HUANGHE ENTERPRISE CO., LTD.",000929,兰州黄河,1999-06-23,甘肃,兰州市,C 制造业,www.yellowriver.net.cn
+szA_000930,中粮生物化学（安徽）股份有限公司,"COFCO BIOCHEMICAL (ANHUI) CO.,LTD",000930,中粮生化,1999-07-12,安徽,蚌埠市,C 制造业,www.zlahsh.com
+szA_000931,北京中关村科技发展(控股)股份有限公司,"BEIJING CENTERGATE TECHNOLOGIES (HOLDING) CO., LTD",000931,中 关 村,1999-07-12,北京,北京市,S 综合,www.centek.com.cn
+szA_000932,湖南华菱钢铁股份有限公司,"HUNAN VALIN STEEL CO.,LTD",000932,*ST华菱,1999-08-03,湖南,长沙市,C 制造业,www.valin.cn
+szA_000933,河南神火煤电股份有限公司,"HENAN SHENHUO COAL & POWER CO.,LTD",000933,神火股份,1999-08-31,河南,商丘市,C 制造业,www.shenhuo.com
+szA_000935,四川双马水泥股份有限公司,SICHUAN SHUANGMA CEMENT CO.LTD,000935,四川双马,1999-08-24,四川,绵阳市,C 制造业,www.cement.com.cn
+szA_000936,江苏华西村股份有限公司,"JIANGSU HUAXICUN CO., LTD.",000936,华西股份,1999-08-10,江苏,无锡市,C 制造业,www.jshuaxicun.com、www.v-capital.cn
+szA_000937,冀中能源股份有限公司,"Jizhong  Energy  Resources  Co., Ltd.",000937,冀中能源,1999-09-09,河北,邢台市,B 采矿业,www.jznygf.com
+szA_000938,紫光股份有限公司,Unisplendour Corporation Limited,000938,紫光股份,1999-11-04,北京,北京市,C 制造业,www.unis.cn
+szA_000939,凯迪生态环境科技股份有限公司,"KAIDI ECOLOGICAL AND ENVIRONMENTAL TECHNOLOGY CO.,LTD",000939,凯迪生态,1999-09-23,湖北,武汉市,D 水电煤气,www.china-kaidi.com
+szA_000948,云南南天电子信息产业股份有限公司,"YUNNAN NANTIAN ELECTRONICS INFORMATION CO.,LTD",000948,南天信息,1999-10-14,云南,昆明市,I 信息技术,www.nantian.com.cn
+szA_000949,新乡化纤股份有限公司,"XINXIANG CHEMICAL FIBER CO., LTD",000949,新乡化纤,1999-10-21,河南,新乡市,C 制造业,www.bailu.com
+szA_000950,重庆建峰化工股份有限公司,"CHONGQING JIANFENG CHEMICAL CO.,LTD",000950,*ST建峰,1999-09-16,重庆,重庆市,C 制造业,www.jfhggf.com
+szA_000951,中国重汽集团济南卡车股份有限公司,"SINOTRUK Jinan  Truck  CO., LTD.",000951,中国重汽,1999-11-25,山东,济南市,C 制造业,www.jntruck.com
+szA_000952,湖北广济药业股份有限公司,"HUBEI GUANGJI PHARMACEUTICAL CO., LTD",000952,广济药业,1999-11-12,湖北,黄冈市,C 制造业,www.guangjipharm.com
+szA_000953,广西河池化工股份有限公司,"GUANGXI HECHI CHEMICAL CO.,LTD",000953,*ST河化,1999-12-02,广西,河池市,C 制造业,www.hechihuagong.com.cn
+szA_000955,欣龙控股（集团）股份有限公司,"XINLONG HOLDING （GROUP） CO., LTD.",000955,欣龙控股,1999-12-09,海南,澄迈县,C 制造业,www.xinlong-holding.com
+szA_000957,中通客车控股股份有限公司,"ZHONGTONG BUS  HOLDING CO.,LTD",000957,中通客车,2000-01-13,山东,聊城市,C 制造业,www.zhongtong.com
+szA_000958,石家庄东方能源股份有限公司,SPIC SHIJIAZHUANG DONGFANG ENERGY CORPORATION,000958,东方能源,1999-12-23,河北,石家庄市,D 水电煤气,www.dfrdjt.com
+szA_000959,北京首钢股份有限公司,"BEIJING SHOUGANG CO.,LTD",000959,首钢股份,1999-12-16,北京,北京市,C 制造业,www.sggf.com.cn
+szA_000960,云南锡业股份有限公司,"Yunnan Tin Co., Ltd.",000960,锡业股份,2000-02-21,云南,昆明市,C 制造业,www.ytl.com.cn
+szA_000961,江苏中南建设集团股份有限公司,"Jiangsu Zhongnan Construction Group CO.,LTD",000961,中南建设,2000-03-01,江苏,南通市,E 建筑业,www.zhongnanconstruction.cn
+szA_000962,宁夏东方钽业股份有限公司,"NINGXIA ORIENT TANTALUM INDUSTRY CO.,LTD",000962,东方钽业,2000-01-20,宁夏,石嘴山市,C 制造业,www.otic.com.cn
+szA_000963,华东医药股份有限公司,"HUADONG MEDICINE CO.,LTD",000963,华东医药,2000-01-27,浙江,杭州市,F 批发零售,www.eastchinapharm.com
+szA_000965,天津天保基建股份有限公司,Tianjin Tianbao Infrastructure Co..Ltd,000965,天保基建,2000-04-06,天津,天津市,K 房地产,www.tbjijian.com
+szA_000966,国电长源电力股份有限公司,"GUODIAN CHANGYUAN ELECTRIC POWER CO.,LTD.",000966,长源电力,2000-03-16,湖北,武汉市,D 水电煤气,www.cydl.com.cn
+szA_000967,盈峰环境科技集团股份有限公司,Infore Environment Technology Group Co. Ltd.,000967,盈峰环境,2000-03-30,浙江,绍兴市,C 制造业,www.inforeenviro.com
+szA_000968,山西蓝焰控股股份有限公司,Shanxi Blue Flame Holding Company Limited,000968,蓝焰控股,2000-06-22,山西,太原市,B 采矿业,www.tymqh.com
+szA_000969,安泰科技股份有限公司,"ADVANCED TECHNOLOGY & MATERIALS CO.,LTD",000969,安泰科技,2000-05-29,北京,北京市,C 制造业,www.atmcn.com
+szA_000970,北京中科三环高技术股份有限公司,"BEIJING ZHONG KE SAN HUAN HIGH-TECH CO., LTD",000970,中科三环,2000-04-20,北京,北京市,C 制造业,www.san-huan.com.cn
+szA_000971,高升控股股份有限公司,"GOSUN HOLDING CO., LTD.",000971,高升控股,2000-04-27,湖北,仙桃市,I 信息技术,www.gosun.com
+szA_000972,中基健康产业股份有限公司,"CHALKIS HEALTH INDUSTRY CO.,LTD",000972,*ST中基,2000-09-26,新疆,乌鲁木齐市,C 制造业,www.chalkistomato.com
+szA_000973,佛山佛塑科技集团股份有限公司,"FSPG HI-TECH CO., LTD",000973,佛塑科技,2000-05-25,广东,佛山市,C 制造业,www.fspg.com.cn
+szA_000975,银泰资源股份有限公司,"Yintai Resources Co.,Ltd.",000975,银泰资源,2000-06-08,内蒙古,锡林郭勒盟,B 采矿业,
+szA_000976,广东开平春晖股份有限公司,"GUANGDONG KAIPING CHUNHUI CO., LTD.",000976,春晖股份,2000-06-01,广东,江门市,C 制造业,www.my0976.com
+szA_000977,浪潮电子信息产业股份有限公司,"Inspur Electronic Information Industry Co.,Ltd",000977,浪潮信息,2000-06-08,山东,济南市,C 制造业,www.inspur.com
+szA_000978,桂林旅游股份有限公司,"Guilin Tourism  Co., Ltd.",000978,桂林旅游,2000-05-18,广西,桂林市,N 公共环保,www.guilintravel.com
+szA_000979,中弘控股股份有限公司,"ZHONGHONG HOLDING CO.,LTD.",000979,中弘股份,2000-06-16,安徽,宿州市,K 房地产,www.zhonghongholdings.com
+szA_000980,安徽众泰汽车股份有限公司,"Anhui Zotye Automobile?Co., Ltd",000980,众泰汽车,2000-06-16,安徽,黄山市,C 制造业,www.hsjinma.com
+szA_000981,银亿房地产股份有限公司,"YINYI REAL ESTATE CO,LTD",000981,银亿股份,2000-06-22,甘肃,兰州市,K 房地产,www.chinayinyi.cn
+szA_000982,宁夏中银绒业股份有限公司,"NINGXIA ZHONGYIN CASHMERE CO.,LTD",000982,*ST 中绒,2000-07-06,宁夏,银川市,C 制造业,www.zhongyincashmere.com
+szA_000983,山西西山煤电股份有限公司,"SHANXI XISHAN COAL AND ELECTRICITY POWER CO.,LTD",000983,西山煤电,2000-07-26,山西,太原市,B 采矿业,www.xsmd.com.cn
+szA_000985,大庆华科股份有限公司,"DAQING HUAKE CO.,LTD",000985,大庆华科,2000-07-26,黑龙江,大庆市,C 制造业,www.huake.com
+szA_000987,广州越秀金融控股集团股份有限公司,"GUANGZHOU YUEXIU FINANCIAL HOLDINGS GROUP CO., LTD",000987,越秀金控,2000-07-18,广东,广州市,J 金融业,www.yuexiu-finance.com
+szA_000988,华工科技产业股份有限公司,HUAGONG TECH COMPANY LIMITED,000988,华工科技,2000-06-08,湖北,武汉市,C 制造业,www.hgtech.com.cn
+szA_000989,九芝堂股份有限公司,"JIUZHITANG CO.,LTD",000989,九 芝 堂,2000-06-28,湖南,长沙市,C 制造业,www.hnjzt.com
+szA_000990,诚志股份有限公司,"CHENGZHI  CO., LTD.",000990,诚志股份,2000-07-06,江西,南昌市,C 制造业,www.chengzhi.com.cn
+szA_000993,福建闽东电力股份有限公司,"FUJIAN MINDONG ELECTRIC POWER CO.,LTD",000993,闽东电力,2000-07-31,福建,宁德市,D 水电煤气,www.mdep.com.cn
+szA_000995,甘肃皇台酒业股份有限公司,"GANSU HUANGTAI WINE―MARKETING INDUSTRY CO.,LTD",000995,皇台酒业,2000-08-07,甘肃,武威市,C 制造业,www.huangtaichina.com
+szA_000996,中国中期投资股份有限公司,CHINA CIFCO INVESTMENT CO.，LTD,000996,中国中期,2000-07-18,北京,北京市,F 批发零售,www.cifco996.com
+szA_000997,福建新大陆电脑股份有限公司,"FUJIAN NEWLAND COMPUTER CO.,LTD",000997,新 大 陆,2000-08-07,福建,福州市,I 信息技术,www.newlandcomputer.com
+szA_000998,袁隆平农业高科技股份有限公司,"YUAN LONGPING HIGH-TECH AGRICULTURE CO.,LTD",000998,隆平高科,2000-12-11,湖南,长沙市,A 农林牧渔,www.lpht.com.cn
+szA_000999,华润三九医药股份有限公司,"China Resources Sanjiu Medical & Pharmaceutical Co., Ltd.",000999,华润三九,2000-03-09,广东,深圳市,C 制造业,www.999.com.cn
+szA_001696,重庆宗申动力机械股份有限公司,"CHONGQING ZONGSHEN POWER MACHINERY CO.,LTD",001696,宗申动力,1997-03-06,重庆,重庆市,C 制造业,www.zsengine.com
+szA_001896,河南豫能控股股份有限公司,"HENAN YUNENG HOLDINGS CO., LTD",001896,豫能控股,1998-01-22,河南,郑州市,D 水电煤气,www.yuneng.com.cn
+szA_001979,招商局蛇口工业区控股股份有限公司,"CHINA MERCHANTS SHEKOU INDUSTRIAL ZONE HOLDINGS CO.,LTD",001979,招商蛇口,2015-12-30,广东,深圳市,K 房地产,www.shekou.com
