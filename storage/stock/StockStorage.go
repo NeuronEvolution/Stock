@@ -1,6 +1,7 @@
 package stock
 
 import (
+	"fmt"
 	"github.com/NeuronEvolution/Stock/models"
 	"github.com/NeuronEvolution/pkg"
 	"go.uber.org/zap"
@@ -34,7 +35,12 @@ func (s *StockStorage) SelectByStockId(stockId string) (stock *models.Stock, err
 }
 
 func (s *StockStorage) SelectList(query *models.StockListQuery) (stockList []*models.Stock, err error) {
-	dbStockList, err := s.db.StockDao.SelectAll(nil)
+	sql := ""
+	if query.ExchangeId != nil {
+		sql = fmt.Sprintf("WHERE exchange_id='%s'", *query.ExchangeId)
+	}
+
+	dbStockList, err := s.db.StockDao.SelectList(nil, sql)
 	if err != nil {
 		return nil, err
 	}

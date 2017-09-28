@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/NeuronEvolution/Stock/api/stock/http/server/restapi/operations"
+	"github.com/NeuronEvolution/Stock/api/restapi/operations"
 	"github.com/NeuronEvolution/Stock/services"
 	"github.com/NeuronEvolution/pkg"
 	"github.com/go-openapi/runtime/middleware"

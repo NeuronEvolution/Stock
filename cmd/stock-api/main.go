@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/NeuronEvolution/Stock/api/stock/http/server/restapi"
-	"github.com/NeuronEvolution/Stock/api/stock/http/server/restapi/operations"
+	"github.com/NeuronEvolution/Stock/api/restapi"
+	"github.com/NeuronEvolution/Stock/api/restapi/operations"
 	"github.com/NeuronEvolution/Stock/cmd/stock-api/handler"
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/runtime/middleware"
@@ -18,7 +18,7 @@ import (
 func main() {
 	middleware.Debug = true
 
-	l, err := zap.NewProduction()
+	l, err := zap.NewDevelopment(zap.AddCaller())
 	if err != nil {
 		log.Fatal(err)
 		return
