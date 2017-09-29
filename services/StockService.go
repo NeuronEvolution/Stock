@@ -3,7 +3,7 @@ package services
 import (
 	"github.com/NeuronEvolution/Stock/models"
 	"github.com/NeuronEvolution/Stock/storage/stock"
-	"github.com/NeuronEvolution/pkg"
+	"github.com/NeuronEvolution/log"
 	"go.uber.org/zap"
 )
 
@@ -14,14 +14,14 @@ type StockServiceOptions struct {
 type StockService struct {
 	logger  *zap.Logger
 	options *StockServiceOptions
-	storage *stock.StockStorage
+	storage *stock.Storage
 }
 
 func NewStockService(options *StockServiceOptions) (s *StockService, err error) {
 	s = &StockService{}
-	s.logger = pkg.TypedLogger(s)
+	s.logger = log.TypedLogger(s)
 	s.options = options
-	s.storage, err = stock.NewStockStorage(&stock.StockStorageOptions{ConnectionString: options.StockStorageConnectionString})
+	s.storage, err = stock.NewStorage(&stock.Options{ConnectionString: options.StockStorageConnectionString})
 	if err != nil {
 		return nil, err
 	}

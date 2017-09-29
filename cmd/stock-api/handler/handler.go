@@ -3,7 +3,7 @@ package handler
 import (
 	"github.com/NeuronEvolution/Stock/api/restapi/operations"
 	"github.com/NeuronEvolution/Stock/services"
-	"github.com/NeuronEvolution/pkg"
+	"github.com/NeuronEvolution/log"
 	"github.com/go-openapi/runtime/middleware"
 	"go.uber.org/zap"
 )
@@ -20,7 +20,7 @@ type StockHandler struct {
 
 func NewStockHandler(options *StockHandlerOptions) (h *StockHandler, err error) {
 	h = &StockHandler{}
-	h.logger = pkg.TypedLogger(h)
+	h.logger = log.TypedLogger(h)
 	h.options = options
 	h.service, err = services.NewStockService(
 		&services.StockServiceOptions{

@@ -2,13 +2,15 @@ package stock
 
 import (
 	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 	"fmt"
 	"github.com/NeuronEvolution/Stock/storage/stock/gen"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/NeuronEvolution/sql/runtime"
+	"context"
 )
 
 type Database struct {
-	db          *sql.DB
+	db          *runtime.DB
 	StockDao    *gen.StockDao
 	ExchangeDao *gen.ExchangeDao
 }
@@ -20,12 +22,12 @@ func NewDatabase(connectionString string) (d *Database, err error) {
 
 	d = &Database{}
 
-	d.db, err = sql.Open("mysql", connectionString)
+	d.db, err = runtime.Open("mysql", connectionString)
 	if err != nil {
 		return nil, err
 	}
 
-	err = d.db.Ping()
+	err = d.db.Ping(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -45,6 +47,6 @@ func NewDatabase(connectionString string) (d *Database, err error) {
 	return d, nil
 }
 
-func (d *Database) BeginTransaction() (*sql.Tx, error) {
-	return d.db.Begin()
+func (d *Database) BeginTransaction(ctx context.Context,level sql.IsolationLevel,readOnly bool) (*runtime.Tx, error) {
+	return d.db.BeginTx(ctx,&sql.TxOptions{Isolation:level,ReadOnly:readOnly})
 }

@@ -1,8 +1,11 @@
 package gen
 
 import (
-	"database/sql"
-	"github.com/NeuronEvolution/pkg"
+	"bytes"
+	"context"
+	"fmt"
+	"github.com/NeuronEvolution/log"
+	"github.com/NeuronEvolution/sql/runtime"
 	"go.uber.org/zap"
 )
 
@@ -35,21 +38,74 @@ type Exchange struct {
 	UpdateTime     string
 }
 
-type ExchangeDao struct {
-	logger                 *zap.Logger
-	db                     *sql.DB
-	insertStmt             *sql.Stmt
-	updateStmt             *sql.Stmt
-	deleteStmt             *sql.Stmt
-	selectStmtAll          *sql.Stmt
-	selectStmtById         *sql.Stmt
-	selectStmtByUpdateTime *sql.Stmt
-	selectStmtByExchangeId *sql.Stmt
+type ExchangeQuery struct {
+	dao *ExchangeDao
+	runtime.Query
 }
 
-func NewExchangeDao(db *sql.DB) (t *ExchangeDao) {
+func NewExchangeQuery(dao *ExchangeDao) *ExchangeQuery {
+	q := &ExchangeQuery{}
+	q.dao = dao
+	q.WhereBuffer = bytes.NewBufferString("")
+	q.LimitBuffer = bytes.NewBufferString("")
+	q.OrderBuffer = bytes.NewBufferString("")
+
+	return q
+}
+
+func (q *ExchangeQuery) Select(ctx context.Context, tx *runtime.Tx) (*Exchange, error) {
+	return q.dao.Select(ctx, tx, q.BuildQueryString())
+}
+
+func (q *ExchangeQuery) SelectList(ctx context.Context, tx *runtime.Tx) (list []*Exchange, err error) {
+	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
+}
+
+func (q *ExchangeQuery) Column_Id(r runtime.Relation, v int64) *ExchangeQuery {
+	q.WhereBuffer.WriteString("id" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Column_ExchangeId(r runtime.Relation, v string) *ExchangeQuery {
+	q.WhereBuffer.WriteString("exchange_id" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Column_ExchangeNameCn(r runtime.Relation, v string) *ExchangeQuery {
+	q.WhereBuffer.WriteString("exchange_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Column_ExchangeNameEn(r runtime.Relation, v string) *ExchangeQuery {
+	q.WhereBuffer.WriteString("exchange_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Column_CreateTime(r runtime.Relation, v string) *ExchangeQuery {
+	q.WhereBuffer.WriteString("create_time" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Column_UpdateTime(r runtime.Relation, v string) *ExchangeQuery {
+	q.WhereBuffer.WriteString("update_time" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+type ExchangeDao struct {
+	logger                 *zap.Logger
+	db                     *runtime.DB
+	insertStmt             *runtime.Stmt
+	updateStmt             *runtime.Stmt
+	deleteStmt             *runtime.Stmt
+	selectStmtAll          *runtime.Stmt
+	selectStmtById         *runtime.Stmt
+	selectStmtByUpdateTime *runtime.Stmt
+	selectStmtByExchangeId *runtime.Stmt
+}
+
+func NewExchangeDao(db *runtime.DB) (t *ExchangeDao) {
 	t = &ExchangeDao{}
-	t.logger = pkg.TypedLogger(t)
+	t.logger = log.TypedLogger(t)
 	t.db = db
 
 	return t
@@ -94,146 +150,104 @@ func (dao *ExchangeDao) Init() (err error) {
 	return nil
 }
 func (dao *ExchangeDao) prepareInsertStmt() (err error) {
-	dao.insertStmt, err = dao.db.Prepare("INSERT INTO exchange (exchange_id,exchange_name_cn,exchange_name_en,create_time,update_time) VALUES (?,?,?,?,?)")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.insertStmt, err = dao.db.Prepare(context.Background(), "INSERT INTO exchange (exchange_id,exchange_name_cn,exchange_name_en,create_time,update_time) VALUES (?,?,?,?,?)")
+	return err
 }
 
 func (dao *ExchangeDao) prepareUpdateStmt() (err error) {
-	dao.updateStmt, err = dao.db.Prepare("UPDATE exchange SET exchange_id=?,exchange_name_cn=?,exchange_name_en=?,create_time=?,update_time=? WHERE id=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.updateStmt, err = dao.db.Prepare(context.Background(), "UPDATE exchange SET exchange_id=?,exchange_name_cn=?,exchange_name_en=?,create_time=?,update_time=? WHERE id=?")
+	return err
 }
 
 func (dao *ExchangeDao) prepareDeleteStmt() (err error) {
-	dao.deleteStmt, err = dao.db.Prepare("DELETE FROM exchange WHERE id=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.deleteStmt, err = dao.db.Prepare(context.Background(), "DELETE FROM exchange WHERE id=?")
+	return err
 }
 
 func (dao *ExchangeDao) prepareSelectStmtAll() (err error) {
-	dao.selectStmtAll, err = dao.db.Prepare("SELECT " + EXCHANGE_ALL_FIELDS_STRING + " FROM exchange")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtAll, err = dao.db.Prepare(context.Background(), "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange")
+	return err
 }
 
 func (dao *ExchangeDao) prepareSelectStmtById() (err error) {
-	dao.selectStmtById, err = dao.db.Prepare("SELECT " + EXCHANGE_ALL_FIELDS_STRING + " FROM exchange WHERE id=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtById, err = dao.db.Prepare(context.Background(), "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange WHERE id=?")
+	return err
 }
 
 func (dao *ExchangeDao) prepareSelectStmtByUpdateTime() (err error) {
-	dao.selectStmtByUpdateTime, err = dao.db.Prepare("SELECT " + EXCHANGE_ALL_FIELDS_STRING + " FROM exchange WHERE update_time=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtByUpdateTime, err = dao.db.Prepare(context.Background(), "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange WHERE update_time=?")
+	return err
 }
 
 func (dao *ExchangeDao) prepareSelectStmtByExchangeId() (err error) {
-	dao.selectStmtByExchangeId, err = dao.db.Prepare("SELECT " + EXCHANGE_ALL_FIELDS_STRING + " FROM exchange WHERE exchange_id=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtByExchangeId, err = dao.db.Prepare(context.Background(), "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange WHERE exchange_id=?")
+	return err
 }
 
-func (dao *ExchangeDao) Insert(tx *sql.Tx, e *Exchange) (id int64, err error) {
+func (dao *ExchangeDao) Insert(ctx context.Context, tx *runtime.Tx, e *Exchange) (id int64, err error) {
 	stmt := dao.insertStmt
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	result, err := stmt.Exec(e.ExchangeId, e.ExchangeNameCn, e.ExchangeNameEn, e.CreateTime, e.UpdateTime)
+	result, err := stmt.Exec(ctx, e.ExchangeId, e.ExchangeNameCn, e.ExchangeNameEn, e.CreateTime, e.UpdateTime)
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	id, err = result.LastInsertId()
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	return id, nil
 }
 
-func (dao *ExchangeDao) Update(tx *sql.Tx, e *Exchange) (rowsAffected int64, err error) {
+func (dao *ExchangeDao) Update(ctx context.Context, tx *runtime.Tx, e *Exchange) (rowsAffected int64, err error) {
 	stmt := dao.updateStmt
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	result, err := stmt.Exec(e.ExchangeId, e.ExchangeNameCn, e.ExchangeNameEn, e.CreateTime, e.UpdateTime, e.Id)
+	result, err := stmt.Exec(ctx, e.ExchangeId, e.ExchangeNameCn, e.ExchangeNameEn, e.CreateTime, e.UpdateTime, e.Id)
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	rowsAffected, err = result.RowsAffected()
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	return rowsAffected, nil
 }
 
-func (dao *ExchangeDao) Delete(tx *sql.Tx, id int64) (rowsAffected int64, err error) {
+func (dao *ExchangeDao) Delete(ctx context.Context, tx *runtime.Tx, id int64) (rowsAffected int64, err error) {
 	stmt := dao.deleteStmt
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	result, err := stmt.Exec(id)
+	result, err := stmt.Exec(ctx, id)
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	rowsAffected, err = result.RowsAffected()
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	return rowsAffected, nil
 }
 
-func (dao *ExchangeDao) ScanRow(row *sql.Row) (*Exchange, error) {
+func (dao *ExchangeDao) ScanRow(row *runtime.Row) (*Exchange, error) {
 	e := &Exchange{}
 	err := row.Scan(&e.Id, &e.ExchangeId, &e.ExchangeNameCn, &e.ExchangeNameEn, &e.CreateTime, &e.UpdateTime)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if err == runtime.ErrNoRows {
 			return nil, nil
 		} else {
-			dao.logger.Error("sqlDriver", zap.Error(err))
 			return nil, err
 		}
 	}
@@ -241,33 +255,31 @@ func (dao *ExchangeDao) ScanRow(row *sql.Row) (*Exchange, error) {
 	return e, nil
 }
 
-func (dao *ExchangeDao) ScanRows(rows *sql.Rows) (list []*Exchange, err error) {
+func (dao *ExchangeDao) ScanRows(rows *runtime.Rows) (list []*Exchange, err error) {
 	list = make([]*Exchange, 0)
 	for rows.Next() {
 		e := Exchange{}
 		err = rows.Scan(&e.Id, &e.ExchangeId, &e.ExchangeNameCn, &e.ExchangeNameEn, &e.CreateTime, &e.UpdateTime)
 		if err != nil {
-			dao.logger.Error("sqlDriver", zap.Error(err))
 			return nil, err
 		}
 		list = append(list, &e)
 	}
 	if rows.Err() != nil {
 		err = rows.Err()
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
 	}
 
 	return list, nil
 }
 
-func (dao *ExchangeDao) SelectAll(tx *sql.Tx) (list []*Exchange, err error) {
+func (dao *ExchangeDao) SelectAll(ctx context.Context, tx *runtime.Tx) (list []*Exchange, err error) {
 	stmt := dao.selectStmtAll
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(ctx)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
@@ -276,8 +288,13 @@ func (dao *ExchangeDao) SelectAll(tx *sql.Tx) (list []*Exchange, err error) {
 	return dao.ScanRows(rows)
 }
 
-func (dao *ExchangeDao) SelectList(tx *sql.Tx, query string) (list []*Exchange, err error) {
-	rows, err := dao.db.Query("SELECT " + EXCHANGE_ALL_FIELDS_STRING + " FROM exchange " + query)
+func (dao *ExchangeDao) Select(ctx context.Context, tx *runtime.Tx, query string) (*Exchange, error) {
+	row := dao.db.QueryRow(ctx, "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange "+query)
+	return dao.ScanRow(row)
+}
+
+func (dao *ExchangeDao) SelectList(ctx context.Context, tx *runtime.Tx, query string) (list []*Exchange, err error) {
+	rows, err := dao.db.Query(ctx, "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange "+query)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
@@ -286,31 +303,31 @@ func (dao *ExchangeDao) SelectList(tx *sql.Tx, query string) (list []*Exchange, 
 	return dao.ScanRows(rows)
 }
 
-func (dao *ExchangeDao) SelectById(tx *sql.Tx, Id int64) (*Exchange, error) {
+func (dao *ExchangeDao) SelectById(ctx context.Context, tx *runtime.Tx, Id int64) (*Exchange, error) {
 	stmt := dao.selectStmtById
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	return dao.ScanRow(stmt.QueryRow(Id))
+	return dao.ScanRow(stmt.QueryRow(ctx, Id))
 }
 
-func (dao *ExchangeDao) SelectByUpdateTime(tx *sql.Tx, UpdateTime string) (*Exchange, error) {
+func (dao *ExchangeDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime string) (*Exchange, error) {
 	stmt := dao.selectStmtByUpdateTime
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	return dao.ScanRow(stmt.QueryRow(UpdateTime))
+	return dao.ScanRow(stmt.QueryRow(ctx, UpdateTime))
 }
 
-func (dao *ExchangeDao) SelectListByUpdateTime(tx *sql.Tx, UpdateTime string) (list []*Exchange, err error) {
+func (dao *ExchangeDao) SelectListByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime string) (list []*Exchange, err error) {
 	stmt := dao.selectStmtByUpdateTime
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	rows, err := stmt.Query(UpdateTime)
+	rows, err := stmt.Query(ctx, UpdateTime)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
@@ -319,13 +336,17 @@ func (dao *ExchangeDao) SelectListByUpdateTime(tx *sql.Tx, UpdateTime string) (l
 	return dao.ScanRows(rows)
 }
 
-func (dao *ExchangeDao) SelectByExchangeId(tx *sql.Tx, ExchangeId string) (*Exchange, error) {
+func (dao *ExchangeDao) SelectByExchangeId(ctx context.Context, tx *runtime.Tx, ExchangeId string) (*Exchange, error) {
 	stmt := dao.selectStmtByExchangeId
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	return dao.ScanRow(stmt.QueryRow(ExchangeId))
+	return dao.ScanRow(stmt.QueryRow(ctx, ExchangeId))
+}
+
+func (dao *ExchangeDao) GetQuery() *ExchangeQuery {
+	return NewExchangeQuery(dao)
 }
 
 const STOCK_TABLE_NAME = "stock"
@@ -390,24 +411,132 @@ type Stock struct {
 	UpdateTime     string
 }
 
-type StockDao struct {
-	logger                             *zap.Logger
-	db                                 *sql.DB
-	insertStmt                         *sql.Stmt
-	updateStmt                         *sql.Stmt
-	deleteStmt                         *sql.Stmt
-	selectStmtAll                      *sql.Stmt
-	selectStmtById                     *sql.Stmt
-	selectStmtByUpdateTime             *sql.Stmt
-	selectStmtByIndustryName           *sql.Stmt
-	selectStmtByStockId                *sql.Stmt
-	selectStmtByExchangeId             *sql.Stmt
-	selectStmtByExchangeIdAndStockCode *sql.Stmt
+type StockQuery struct {
+	dao *StockDao
+	runtime.Query
 }
 
-func NewStockDao(db *sql.DB) (t *StockDao) {
+func NewStockQuery(dao *StockDao) *StockQuery {
+	q := &StockQuery{}
+	q.dao = dao
+	q.WhereBuffer = bytes.NewBufferString("")
+	q.LimitBuffer = bytes.NewBufferString("")
+	q.OrderBuffer = bytes.NewBufferString("")
+
+	return q
+}
+
+func (q *StockQuery) Select(ctx context.Context, tx *runtime.Tx) (*Stock, error) {
+	return q.dao.Select(ctx, tx, q.BuildQueryString())
+}
+
+func (q *StockQuery) SelectList(ctx context.Context, tx *runtime.Tx) (list []*Stock, err error) {
+	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
+}
+
+func (q *StockQuery) Column_Id(r runtime.Relation, v int64) *StockQuery {
+	q.WhereBuffer.WriteString("id" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_StockId(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("stock_id" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_ExchangeId(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("exchange_id" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_StockCode(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("stock_code" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_StockNameCn(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("stock_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_StockNameEn(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("stock_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_LaunchDate(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("launch_date" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_CompanyNameCn(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("company_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_CompanyNameEn(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("company_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_WebsiteUrl(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("website_url" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_IndustryName(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("industry_name" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_CityNameCn(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("city_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_CityNameEn(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("city_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_ProvinceNameCn(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("province_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_ProvinceNameEn(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("province_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_CreateTime(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("create_time" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) Column_UpdateTime(r runtime.Relation, v string) *StockQuery {
+	q.WhereBuffer.WriteString("update_time" + string(r) + "'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+type StockDao struct {
+	logger                             *zap.Logger
+	db                                 *runtime.DB
+	insertStmt                         *runtime.Stmt
+	updateStmt                         *runtime.Stmt
+	deleteStmt                         *runtime.Stmt
+	selectStmtAll                      *runtime.Stmt
+	selectStmtById                     *runtime.Stmt
+	selectStmtByUpdateTime             *runtime.Stmt
+	selectStmtByIndustryName           *runtime.Stmt
+	selectStmtByStockId                *runtime.Stmt
+	selectStmtByExchangeId             *runtime.Stmt
+	selectStmtByExchangeIdAndStockCode *runtime.Stmt
+}
+
+func NewStockDao(db *runtime.DB) (t *StockDao) {
 	t = &StockDao{}
-	t.logger = pkg.TypedLogger(t)
+	t.logger = log.TypedLogger(t)
 	t.db = db
 
 	return t
@@ -467,176 +596,119 @@ func (dao *StockDao) Init() (err error) {
 	return nil
 }
 func (dao *StockDao) prepareInsertStmt() (err error) {
-	dao.insertStmt, err = dao.db.Prepare("INSERT INTO stock (stock_id,exchange_id,stock_code,stock_name_cn,stock_name_en,launch_date,company_name_cn,company_name_en,website_url,industry_name,city_name_cn,city_name_en,province_name_cn,province_name_en,create_time,update_time) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.insertStmt, err = dao.db.Prepare(context.Background(), "INSERT INTO stock (stock_id,exchange_id,stock_code,stock_name_cn,stock_name_en,launch_date,company_name_cn,company_name_en,website_url,industry_name,city_name_cn,city_name_en,province_name_cn,province_name_en,create_time,update_time) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
+	return err
 }
 
 func (dao *StockDao) prepareUpdateStmt() (err error) {
-	dao.updateStmt, err = dao.db.Prepare("UPDATE stock SET stock_id=?,exchange_id=?,stock_code=?,stock_name_cn=?,stock_name_en=?,launch_date=?,company_name_cn=?,company_name_en=?,website_url=?,industry_name=?,city_name_cn=?,city_name_en=?,province_name_cn=?,province_name_en=?,create_time=?,update_time=? WHERE id=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.updateStmt, err = dao.db.Prepare(context.Background(), "UPDATE stock SET stock_id=?,exchange_id=?,stock_code=?,stock_name_cn=?,stock_name_en=?,launch_date=?,company_name_cn=?,company_name_en=?,website_url=?,industry_name=?,city_name_cn=?,city_name_en=?,province_name_cn=?,province_name_en=?,create_time=?,update_time=? WHERE id=?")
+	return err
 }
 
 func (dao *StockDao) prepareDeleteStmt() (err error) {
-	dao.deleteStmt, err = dao.db.Prepare("DELETE FROM stock WHERE id=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.deleteStmt, err = dao.db.Prepare(context.Background(), "DELETE FROM stock WHERE id=?")
+	return err
 }
 
 func (dao *StockDao) prepareSelectStmtAll() (err error) {
-	dao.selectStmtAll, err = dao.db.Prepare("SELECT " + STOCK_ALL_FIELDS_STRING + " FROM stock")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtAll, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock")
+	return err
 }
 
 func (dao *StockDao) prepareSelectStmtById() (err error) {
-	dao.selectStmtById, err = dao.db.Prepare("SELECT " + STOCK_ALL_FIELDS_STRING + " FROM stock WHERE id=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtById, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE id=?")
+	return err
 }
 
 func (dao *StockDao) prepareSelectStmtByUpdateTime() (err error) {
-	dao.selectStmtByUpdateTime, err = dao.db.Prepare("SELECT " + STOCK_ALL_FIELDS_STRING + " FROM stock WHERE update_time=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtByUpdateTime, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE update_time=?")
+	return err
 }
 
 func (dao *StockDao) prepareSelectStmtByIndustryName() (err error) {
-	dao.selectStmtByIndustryName, err = dao.db.Prepare("SELECT " + STOCK_ALL_FIELDS_STRING + " FROM stock WHERE industry_name=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtByIndustryName, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE industry_name=?")
+	return err
 }
 
 func (dao *StockDao) prepareSelectStmtByStockId() (err error) {
-	dao.selectStmtByStockId, err = dao.db.Prepare("SELECT " + STOCK_ALL_FIELDS_STRING + " FROM stock WHERE stock_id=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtByStockId, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE stock_id=?")
+	return err
 }
 
 func (dao *StockDao) prepareSelectStmtByExchangeId() (err error) {
-	dao.selectStmtByExchangeId, err = dao.db.Prepare("SELECT " + STOCK_ALL_FIELDS_STRING + " FROM stock WHERE exchange_id=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtByExchangeId, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE exchange_id=?")
+	return err
 }
 
 func (dao *StockDao) prepareSelectStmtByExchangeIdAndStockCode() (err error) {
-	dao.selectStmtByExchangeIdAndStockCode, err = dao.db.Prepare("SELECT " + STOCK_ALL_FIELDS_STRING + " FROM stock WHERE exchange_id=? AND stock_code=?")
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return err
-	}
-
-	return nil
+	dao.selectStmtByExchangeIdAndStockCode, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE exchange_id=? AND stock_code=?")
+	return err
 }
 
-func (dao *StockDao) Insert(tx *sql.Tx, e *Stock) (id int64, err error) {
+func (dao *StockDao) Insert(ctx context.Context, tx *runtime.Tx, e *Stock) (id int64, err error) {
 	stmt := dao.insertStmt
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	result, err := stmt.Exec(e.StockId, e.ExchangeId, e.StockCode, e.StockNameCn, e.StockNameEn, e.LaunchDate, e.CompanyNameCn, e.CompanyNameEn, e.WebsiteUrl, e.IndustryName, e.CityNameCn, e.CityNameEn, e.ProvinceNameCn, e.ProvinceNameEn, e.CreateTime, e.UpdateTime)
+	result, err := stmt.Exec(ctx, e.StockId, e.ExchangeId, e.StockCode, e.StockNameCn, e.StockNameEn, e.LaunchDate, e.CompanyNameCn, e.CompanyNameEn, e.WebsiteUrl, e.IndustryName, e.CityNameCn, e.CityNameEn, e.ProvinceNameCn, e.ProvinceNameEn, e.CreateTime, e.UpdateTime)
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	id, err = result.LastInsertId()
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	return id, nil
 }
 
-func (dao *StockDao) Update(tx *sql.Tx, e *Stock) (rowsAffected int64, err error) {
+func (dao *StockDao) Update(ctx context.Context, tx *runtime.Tx, e *Stock) (rowsAffected int64, err error) {
 	stmt := dao.updateStmt
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	result, err := stmt.Exec(e.StockId, e.ExchangeId, e.StockCode, e.StockNameCn, e.StockNameEn, e.LaunchDate, e.CompanyNameCn, e.CompanyNameEn, e.WebsiteUrl, e.IndustryName, e.CityNameCn, e.CityNameEn, e.ProvinceNameCn, e.ProvinceNameEn, e.CreateTime, e.UpdateTime, e.Id)
+	result, err := stmt.Exec(ctx, e.StockId, e.ExchangeId, e.StockCode, e.StockNameCn, e.StockNameEn, e.LaunchDate, e.CompanyNameCn, e.CompanyNameEn, e.WebsiteUrl, e.IndustryName, e.CityNameCn, e.CityNameEn, e.ProvinceNameCn, e.ProvinceNameEn, e.CreateTime, e.UpdateTime, e.Id)
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	rowsAffected, err = result.RowsAffected()
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	return rowsAffected, nil
 }
 
-func (dao *StockDao) Delete(tx *sql.Tx, id int64) (rowsAffected int64, err error) {
+func (dao *StockDao) Delete(ctx context.Context, tx *runtime.Tx, id int64) (rowsAffected int64, err error) {
 	stmt := dao.deleteStmt
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	result, err := stmt.Exec(id)
+	result, err := stmt.Exec(ctx, id)
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	rowsAffected, err = result.RowsAffected()
 	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return 0, err
 	}
 
 	return rowsAffected, nil
 }
 
-func (dao *StockDao) ScanRow(row *sql.Row) (*Stock, error) {
+func (dao *StockDao) ScanRow(row *runtime.Row) (*Stock, error) {
 	e := &Stock{}
 	err := row.Scan(&e.Id, &e.StockId, &e.ExchangeId, &e.StockCode, &e.StockNameCn, &e.StockNameEn, &e.LaunchDate, &e.CompanyNameCn, &e.CompanyNameEn, &e.WebsiteUrl, &e.IndustryName, &e.CityNameCn, &e.CityNameEn, &e.ProvinceNameCn, &e.ProvinceNameEn, &e.CreateTime, &e.UpdateTime)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if err == runtime.ErrNoRows {
 			return nil, nil
 		} else {
-			dao.logger.Error("sqlDriver", zap.Error(err))
 			return nil, err
 		}
 	}
@@ -644,33 +716,31 @@ func (dao *StockDao) ScanRow(row *sql.Row) (*Stock, error) {
 	return e, nil
 }
 
-func (dao *StockDao) ScanRows(rows *sql.Rows) (list []*Stock, err error) {
+func (dao *StockDao) ScanRows(rows *runtime.Rows) (list []*Stock, err error) {
 	list = make([]*Stock, 0)
 	for rows.Next() {
 		e := Stock{}
 		err = rows.Scan(&e.Id, &e.StockId, &e.ExchangeId, &e.StockCode, &e.StockNameCn, &e.StockNameEn, &e.LaunchDate, &e.CompanyNameCn, &e.CompanyNameEn, &e.WebsiteUrl, &e.IndustryName, &e.CityNameCn, &e.CityNameEn, &e.ProvinceNameCn, &e.ProvinceNameEn, &e.CreateTime, &e.UpdateTime)
 		if err != nil {
-			dao.logger.Error("sqlDriver", zap.Error(err))
 			return nil, err
 		}
 		list = append(list, &e)
 	}
 	if rows.Err() != nil {
 		err = rows.Err()
-		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
 	}
 
 	return list, nil
 }
 
-func (dao *StockDao) SelectAll(tx *sql.Tx) (list []*Stock, err error) {
+func (dao *StockDao) SelectAll(ctx context.Context, tx *runtime.Tx) (list []*Stock, err error) {
 	stmt := dao.selectStmtAll
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(ctx)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
@@ -679,10 +749,13 @@ func (dao *StockDao) SelectAll(tx *sql.Tx) (list []*Stock, err error) {
 	return dao.ScanRows(rows)
 }
 
-func (dao *StockDao) SelectList(tx *sql.Tx, query string) (list []*Stock, err error) {
-	sql:="SELECT " + STOCK_ALL_FIELDS_STRING + " FROM stock " + query
-	dao.logger.Info(sql)
-	rows, err := dao.db.Query(sql)
+func (dao *StockDao) Select(ctx context.Context, tx *runtime.Tx, query string) (*Stock, error) {
+	row := dao.db.QueryRow(ctx, "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock "+query)
+	return dao.ScanRow(row)
+}
+
+func (dao *StockDao) SelectList(ctx context.Context, tx *runtime.Tx, query string) (list []*Stock, err error) {
+	rows, err := dao.db.Query(ctx, "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock "+query)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
@@ -691,31 +764,31 @@ func (dao *StockDao) SelectList(tx *sql.Tx, query string) (list []*Stock, err er
 	return dao.ScanRows(rows)
 }
 
-func (dao *StockDao) SelectById(tx *sql.Tx, Id int64) (*Stock, error) {
+func (dao *StockDao) SelectById(ctx context.Context, tx *runtime.Tx, Id int64) (*Stock, error) {
 	stmt := dao.selectStmtById
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	return dao.ScanRow(stmt.QueryRow(Id))
+	return dao.ScanRow(stmt.QueryRow(ctx, Id))
 }
 
-func (dao *StockDao) SelectByUpdateTime(tx *sql.Tx, UpdateTime string) (*Stock, error) {
+func (dao *StockDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime string) (*Stock, error) {
 	stmt := dao.selectStmtByUpdateTime
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	return dao.ScanRow(stmt.QueryRow(UpdateTime))
+	return dao.ScanRow(stmt.QueryRow(ctx, UpdateTime))
 }
 
-func (dao *StockDao) SelectListByUpdateTime(tx *sql.Tx, UpdateTime string) (list []*Stock, err error) {
+func (dao *StockDao) SelectListByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime string) (list []*Stock, err error) {
 	stmt := dao.selectStmtByUpdateTime
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	rows, err := stmt.Query(UpdateTime)
+	rows, err := stmt.Query(ctx, UpdateTime)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
@@ -724,22 +797,22 @@ func (dao *StockDao) SelectListByUpdateTime(tx *sql.Tx, UpdateTime string) (list
 	return dao.ScanRows(rows)
 }
 
-func (dao *StockDao) SelectByIndustryName(tx *sql.Tx, IndustryName string) (*Stock, error) {
+func (dao *StockDao) SelectByIndustryName(ctx context.Context, tx *runtime.Tx, IndustryName string) (*Stock, error) {
 	stmt := dao.selectStmtByIndustryName
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	return dao.ScanRow(stmt.QueryRow(IndustryName))
+	return dao.ScanRow(stmt.QueryRow(ctx, IndustryName))
 }
 
-func (dao *StockDao) SelectListByIndustryName(tx *sql.Tx, IndustryName string) (list []*Stock, err error) {
+func (dao *StockDao) SelectListByIndustryName(ctx context.Context, tx *runtime.Tx, IndustryName string) (list []*Stock, err error) {
 	stmt := dao.selectStmtByIndustryName
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	rows, err := stmt.Query(IndustryName)
+	rows, err := stmt.Query(ctx, IndustryName)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
@@ -748,35 +821,39 @@ func (dao *StockDao) SelectListByIndustryName(tx *sql.Tx, IndustryName string) (
 	return dao.ScanRows(rows)
 }
 
-func (dao *StockDao) SelectByStockId(tx *sql.Tx, StockId string) (*Stock, error) {
+func (dao *StockDao) SelectByStockId(ctx context.Context, tx *runtime.Tx, StockId string) (*Stock, error) {
 	stmt := dao.selectStmtByStockId
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	return dao.ScanRow(stmt.QueryRow(StockId))
+	return dao.ScanRow(stmt.QueryRow(ctx, StockId))
 }
 
-func (dao *StockDao) SelectByExchangeIdAndStockCode(tx *sql.Tx, ExchangeId string, StockCode string) (*Stock, error) {
+func (dao *StockDao) SelectByExchangeIdAndStockCode(ctx context.Context, tx *runtime.Tx, ExchangeId string, StockCode string) (*Stock, error) {
 	stmt := dao.selectStmtByExchangeIdAndStockCode
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	return dao.ScanRow(stmt.QueryRow(ExchangeId, StockCode))
+	return dao.ScanRow(stmt.QueryRow(ctx, ExchangeId, StockCode))
 }
 
-func (dao *StockDao) SelectListByExchangeId(tx *sql.Tx, ExchangeId string) (list []*Stock, err error) {
+func (dao *StockDao) SelectListByExchangeId(ctx context.Context, tx *runtime.Tx, ExchangeId string) (list []*Stock, err error) {
 	stmt := dao.selectStmtByExchangeId
 	if tx != nil {
-		stmt = tx.Stmt(stmt)
+		stmt = tx.Stmt(ctx, stmt)
 	}
 
-	rows, err := stmt.Query(ExchangeId)
+	rows, err := stmt.Query(ctx, ExchangeId)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
 	}
 
 	return dao.ScanRows(rows)
+}
+
+func (dao *StockDao) GetQuery() *StockQuery {
+	return NewStockQuery(dao)
 }

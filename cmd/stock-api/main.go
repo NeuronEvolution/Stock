@@ -4,6 +4,7 @@ import (
 	"github.com/NeuronEvolution/Stock/api/restapi"
 	"github.com/NeuronEvolution/Stock/api/restapi/operations"
 	"github.com/NeuronEvolution/Stock/cmd/stock-api/handler"
+	"github.com/NeuronEvolution/log"
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/marshome/i-pkg/httphelper"
@@ -11,25 +12,20 @@ import (
 	"github.com/rs/cors"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
-	"log"
 	"net/http"
 )
 
 func main() {
-	middleware.Debug = true
+	log.Init(true)
 
-	l, err := zap.NewDevelopment(zap.AddCaller())
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-	zap.ReplaceGlobals(l)
-	//logger := zap.L().Named("main")
+	middleware.Debug = false
 
-	cmd := cobra.Command{}
+	logger := zap.L().Named("main")
 
 	var bind_addr string
 	var storageConnectionString = ""
+
+	cmd := cobra.Command{}
 	cmd.PersistentFlags().StringVar(&bind_addr, "bind-addr", ":8081", "api server bind addr")
 	cmd.PersistentFlags().StringVar(&storageConnectionString, "mysql-connection-string", "root:123456@tcp(127.0.0.1:3307)/fin-stock", "mysql connection string")
 	cmd.RunE = func(cmd *cobra.Command, args []string) error {
@@ -51,7 +47,7 @@ func main() {
 			return h.Get(params)
 		})
 
-		zap.L().Info("Start server", zap.String("addr", bind_addr))
+		logger.Info("Start server", zap.String("addr", bind_addr))
 		err = http.ListenAndServe(bind_addr,
 			httphelper.Recovery(cors.Default().Handler(api.Serve(nil))))
 		if err != nil {
