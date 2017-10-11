@@ -16,8 +16,6 @@ function callApi(apiName,request,callback) {
 }
 
 export default store => next => action => {
-    console.log(action)
-
     const swaggerApi = action[SWAGGER_API]
     if (typeof swaggerApi === 'undefined') {
         return next(action)
@@ -41,5 +39,6 @@ export default store => next => action => {
     }
 
     next({type: REQUEST_ACTION})
+
     callApi(apiName, request, callback)
 }

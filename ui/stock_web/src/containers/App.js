@@ -13,6 +13,7 @@ class App extends Component {
         this.loadStockList()
 
         setInterval(() => {
+            //this.props.apiStockList("szA")
         }, 10000)
     }
 

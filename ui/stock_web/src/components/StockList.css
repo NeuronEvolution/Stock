@@ -1,0 +1,14 @@
+.StockList-item-code{
+    width: 40%;
+    text-align: left;
+}
+
+.StockList-item-nameCN{
+    width: 40%;
+    text-align: left;
+}
+
+.StockList-item-industryName{
+    width: 30%;
+    text-align: left;
+}
