@@ -1,4 +1,4 @@
-package gen
+package fin_stock
 
 import (
 	"bytes"
@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"github.com/NeuronEvolution/log"
 	"github.com/NeuronEvolution/sql/runtime"
+	_ "github.com/go-sql-driver/mysql"
 	"go.uber.org/zap"
+	"time"
 )
 
 const EXCHANGE_TABLE_NAME = "exchange"
@@ -34,8 +36,8 @@ type Exchange struct {
 	ExchangeId     string //size=32
 	ExchangeNameCn string //size=128
 	ExchangeNameEn string //size=128
-	CreateTime     string
-	UpdateTime     string
+	CreateTime     time.Time
+	UpdateTime     time.Time
 }
 
 type ExchangeQuery struct {
@@ -53,47 +55,67 @@ func NewExchangeQuery(dao *ExchangeDao) *ExchangeQuery {
 	return q
 }
 
-func (q *ExchangeQuery) Select(ctx context.Context, tx *runtime.Tx) (*Exchange, error) {
+func (q *ExchangeQuery) Select(ctx context.Context) (*Exchange, error) {
+	return q.dao.Select(ctx, nil, q.BuildQueryString())
+}
+
+func (q *ExchangeQuery) SelectForUpdate(ctx context.Context, tx *runtime.Tx) (*Exchange, error) {
+	q.ForUpdate = true
 	return q.dao.Select(ctx, tx, q.BuildQueryString())
 }
 
-func (q *ExchangeQuery) SelectList(ctx context.Context, tx *runtime.Tx) (list []*Exchange, err error) {
+func (q *ExchangeQuery) SelectForShare(ctx context.Context, tx *runtime.Tx) (*Exchange, error) {
+	q.ForShare = true
+	return q.dao.Select(ctx, tx, q.BuildQueryString())
+}
+
+func (q *ExchangeQuery) SelectList(ctx context.Context) (list []*Exchange, err error) {
+	return q.dao.SelectList(ctx, nil, q.BuildQueryString())
+}
+
+func (q *ExchangeQuery) SelectListForUpdate(ctx context.Context, tx *runtime.Tx) (list []*Exchange, err error) {
+	q.ForUpdate = true
 	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
 }
 
-func (q *ExchangeQuery) Column_Id(r runtime.Relation, v int64) *ExchangeQuery {
+func (q *ExchangeQuery) SelectListForShare(ctx context.Context, tx *runtime.Tx) (list []*Exchange, err error) {
+	q.ForShare = true
+	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
+}
+
+func (q *ExchangeQuery) Id_Column(r runtime.Relation, v int64) *ExchangeQuery {
 	q.WhereBuffer.WriteString("id" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *ExchangeQuery) Column_ExchangeId(r runtime.Relation, v string) *ExchangeQuery {
+func (q *ExchangeQuery) ExchangeId_Column(r runtime.Relation, v string) *ExchangeQuery {
 	q.WhereBuffer.WriteString("exchange_id" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *ExchangeQuery) Column_ExchangeNameCn(r runtime.Relation, v string) *ExchangeQuery {
+func (q *ExchangeQuery) ExchangeNameCn_Column(r runtime.Relation, v string) *ExchangeQuery {
 	q.WhereBuffer.WriteString("exchange_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *ExchangeQuery) Column_ExchangeNameEn(r runtime.Relation, v string) *ExchangeQuery {
+func (q *ExchangeQuery) ExchangeNameEn_Column(r runtime.Relation, v string) *ExchangeQuery {
 	q.WhereBuffer.WriteString("exchange_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *ExchangeQuery) Column_CreateTime(r runtime.Relation, v string) *ExchangeQuery {
+func (q *ExchangeQuery) CreateTime_Column(r runtime.Relation, v time.Time) *ExchangeQuery {
 	q.WhereBuffer.WriteString("create_time" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *ExchangeQuery) Column_UpdateTime(r runtime.Relation, v string) *ExchangeQuery {
+func (q *ExchangeQuery) UpdateTime_Column(r runtime.Relation, v time.Time) *ExchangeQuery {
 	q.WhereBuffer.WriteString("update_time" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
 type ExchangeDao struct {
 	logger                 *zap.Logger
-	db                     *runtime.DB
+	db                     *DB
 	insertStmt             *runtime.Stmt
 	updateStmt             *runtime.Stmt
 	deleteStmt             *runtime.Stmt
@@ -103,7 +125,7 @@ type ExchangeDao struct {
 	selectStmtByExchangeId *runtime.Stmt
 }
 
-func NewExchangeDao(db *runtime.DB) (t *ExchangeDao) {
+func NewExchangeDao(db *DB) (t *ExchangeDao) {
 	t = &ExchangeDao{}
 	t.logger = log.TypedLogger(t)
 	t.db = db
@@ -312,7 +334,7 @@ func (dao *ExchangeDao) SelectById(ctx context.Context, tx *runtime.Tx, Id int64
 	return dao.ScanRow(stmt.QueryRow(ctx, Id))
 }
 
-func (dao *ExchangeDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime string) (*Exchange, error) {
+func (dao *ExchangeDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime time.Time) (*Exchange, error) {
 	stmt := dao.selectStmtByUpdateTime
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -321,7 +343,7 @@ func (dao *ExchangeDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, 
 	return dao.ScanRow(stmt.QueryRow(ctx, UpdateTime))
 }
 
-func (dao *ExchangeDao) SelectListByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime string) (list []*Exchange, err error) {
+func (dao *ExchangeDao) SelectListByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime time.Time) (list []*Exchange, err error) {
 	stmt := dao.selectStmtByUpdateTime
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -398,7 +420,7 @@ type Stock struct {
 	StockCode      string //size=32
 	StockNameCn    string //size=32
 	StockNameEn    string //size=32
-	LaunchDate     string
+	LaunchDate     time.Time
 	CompanyNameCn  string //size=128
 	CompanyNameEn  string //size=128
 	WebsiteUrl     string //size=128
@@ -407,8 +429,8 @@ type Stock struct {
 	CityNameEn     string //size=128
 	ProvinceNameCn string //size=128
 	ProvinceNameEn string //size=128
-	CreateTime     string
-	UpdateTime     string
+	CreateTime     time.Time
+	UpdateTime     time.Time
 }
 
 type StockQuery struct {
@@ -426,102 +448,122 @@ func NewStockQuery(dao *StockDao) *StockQuery {
 	return q
 }
 
-func (q *StockQuery) Select(ctx context.Context, tx *runtime.Tx) (*Stock, error) {
+func (q *StockQuery) Select(ctx context.Context) (*Stock, error) {
+	return q.dao.Select(ctx, nil, q.BuildQueryString())
+}
+
+func (q *StockQuery) SelectForUpdate(ctx context.Context, tx *runtime.Tx) (*Stock, error) {
+	q.ForUpdate = true
 	return q.dao.Select(ctx, tx, q.BuildQueryString())
 }
 
-func (q *StockQuery) SelectList(ctx context.Context, tx *runtime.Tx) (list []*Stock, err error) {
+func (q *StockQuery) SelectForShare(ctx context.Context, tx *runtime.Tx) (*Stock, error) {
+	q.ForShare = true
+	return q.dao.Select(ctx, tx, q.BuildQueryString())
+}
+
+func (q *StockQuery) SelectList(ctx context.Context) (list []*Stock, err error) {
+	return q.dao.SelectList(ctx, nil, q.BuildQueryString())
+}
+
+func (q *StockQuery) SelectListForUpdate(ctx context.Context, tx *runtime.Tx) (list []*Stock, err error) {
+	q.ForUpdate = true
 	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
 }
 
-func (q *StockQuery) Column_Id(r runtime.Relation, v int64) *StockQuery {
+func (q *StockQuery) SelectListForShare(ctx context.Context, tx *runtime.Tx) (list []*Stock, err error) {
+	q.ForShare = true
+	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
+}
+
+func (q *StockQuery) Id_Column(r runtime.Relation, v int64) *StockQuery {
 	q.WhereBuffer.WriteString("id" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_StockId(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) StockId_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("stock_id" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_ExchangeId(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) ExchangeId_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("exchange_id" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_StockCode(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) StockCode_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("stock_code" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_StockNameCn(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) StockNameCn_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("stock_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_StockNameEn(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) StockNameEn_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("stock_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_LaunchDate(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) LaunchDate_Column(r runtime.Relation, v time.Time) *StockQuery {
 	q.WhereBuffer.WriteString("launch_date" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_CompanyNameCn(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) CompanyNameCn_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("company_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_CompanyNameEn(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) CompanyNameEn_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("company_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_WebsiteUrl(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) WebsiteUrl_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("website_url" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_IndustryName(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) IndustryName_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("industry_name" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_CityNameCn(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) CityNameCn_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("city_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_CityNameEn(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) CityNameEn_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("city_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_ProvinceNameCn(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) ProvinceNameCn_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("province_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_ProvinceNameEn(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) ProvinceNameEn_Column(r runtime.Relation, v string) *StockQuery {
 	q.WhereBuffer.WriteString("province_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_CreateTime(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) CreateTime_Column(r runtime.Relation, v time.Time) *StockQuery {
 	q.WhereBuffer.WriteString("create_time" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) Column_UpdateTime(r runtime.Relation, v string) *StockQuery {
+func (q *StockQuery) UpdateTime_Column(r runtime.Relation, v time.Time) *StockQuery {
 	q.WhereBuffer.WriteString("update_time" + string(r) + "'" + fmt.Sprint(v) + "'")
 	return q
 }
 
 type StockDao struct {
 	logger                             *zap.Logger
-	db                                 *runtime.DB
+	db                                 *DB
 	insertStmt                         *runtime.Stmt
 	updateStmt                         *runtime.Stmt
 	deleteStmt                         *runtime.Stmt
@@ -534,7 +576,7 @@ type StockDao struct {
 	selectStmtByExchangeIdAndStockCode *runtime.Stmt
 }
 
-func NewStockDao(db *runtime.DB) (t *StockDao) {
+func NewStockDao(db *DB) (t *StockDao) {
 	t = &StockDao{}
 	t.logger = log.TypedLogger(t)
 	t.db = db
@@ -773,7 +815,7 @@ func (dao *StockDao) SelectById(ctx context.Context, tx *runtime.Tx, Id int64) (
 	return dao.ScanRow(stmt.QueryRow(ctx, Id))
 }
 
-func (dao *StockDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime string) (*Stock, error) {
+func (dao *StockDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime time.Time) (*Stock, error) {
 	stmt := dao.selectStmtByUpdateTime
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -782,7 +824,7 @@ func (dao *StockDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, Upd
 	return dao.ScanRow(stmt.QueryRow(ctx, UpdateTime))
 }
 
-func (dao *StockDao) SelectListByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime string) (list []*Stock, err error) {
+func (dao *StockDao) SelectListByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime time.Time) (list []*Stock, err error) {
 	stmt := dao.selectStmtByUpdateTime
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -856,4 +898,43 @@ func (dao *StockDao) SelectListByExchangeId(ctx context.Context, tx *runtime.Tx,
 
 func (dao *StockDao) GetQuery() *StockQuery {
 	return NewStockQuery(dao)
+}
+
+type DB struct {
+	runtime.DB
+	Exchange *ExchangeDao
+	Stock    *StockDao
+}
+
+func NewDB(connectionString string) (d *DB, err error) {
+	if connectionString == "" {
+		return nil, fmt.Errorf("connectionString nil")
+	}
+
+	d = &DB{}
+
+	db, err := runtime.Open("mysql", connectionString)
+	if err != nil {
+		return nil, err
+	}
+	d.DB = *db
+
+	err = d.Ping(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	d.Exchange = NewExchangeDao(d)
+	err = d.Exchange.Init()
+	if err != nil {
+		return nil, err
+	}
+
+	d.Stock = NewStockDao(d)
+	err = d.Stock.Init()
+	if err != nil {
+		return nil, err
+	}
+
+	return d, nil
 }

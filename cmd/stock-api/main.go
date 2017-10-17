@@ -27,7 +27,7 @@ func main() {
 
 	cmd := cobra.Command{}
 	cmd.PersistentFlags().StringVar(&bind_addr, "bind-addr", ":8081", "api server bind addr")
-	cmd.PersistentFlags().StringVar(&storageConnectionString, "mysql-connection-string", "root:123456@tcp(127.0.0.1:3307)/fin-stock", "mysql connection string")
+	cmd.PersistentFlags().StringVar(&storageConnectionString, "mysql-connection-string", "root:123456@tcp(127.0.0.1:3307)/fin-stock?parseTime=true", "mysql connection string")
 	cmd.RunE = func(cmd *cobra.Command, args []string) error {
 		swaggerSpec, err := loads.Analyzed(restapi.SwaggerJSON, "")
 		if err != nil {
@@ -40,12 +40,8 @@ func main() {
 			return err
 		}
 
-		api.StocksListHandler = operations.StocksListHandlerFunc(func(params operations.StocksListParams) middleware.Responder {
-			return h.List(params)
-		})
-		api.StocksGetHandler = operations.StocksGetHandlerFunc(func(params operations.StocksGetParams) middleware.Responder {
-			return h.Get(params)
-		})
+		api.StocksListHandler = operations.StocksListHandlerFunc(h.List)
+		api.StocksGetHandler = operations.StocksGetHandlerFunc(h.Get)
 
 		logger.Info("Start server", zap.String("addr", bind_addr))
 		err = http.ListenAndServe(bind_addr,
