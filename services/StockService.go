@@ -3,10 +3,8 @@ package services
 import (
 	"context"
 	"github.com/NeuronEvolution/Stock/models"
-	"github.com/NeuronEvolution/Stock/storages"
 	"github.com/NeuronEvolution/Stock/storages/fin-stock"
 	"github.com/NeuronEvolution/log"
-	"github.com/NeuronEvolution/sql/runtime"
 	"go.uber.org/zap"
 )
 
@@ -17,14 +15,14 @@ type StockServiceOptions struct {
 type StockService struct {
 	logger  *zap.Logger
 	options *StockServiceOptions
-	storage *storages.Storage
+	db      *fin_stock.DB
 }
 
 func NewStockService(options *StockServiceOptions) (s *StockService, err error) {
 	s = &StockService{}
 	s.logger = log.TypedLogger(s)
 	s.options = options
-	s.storage, err = storages.NewStorage(&storages.Options{ConnectionString: options.StockStorageConnectionString})
+	s.db, err = fin_stock.NewDB(options.StockStorageConnectionString)
 	if err != nil {
 		return nil, err
 	}
@@ -33,9 +31,9 @@ func NewStockService(options *StockServiceOptions) (s *StockService, err error) 
 }
 
 func (s *StockService) List(query *models.StockListQuery) (list []*models.Stock, err error) {
-	q := s.storage.Stock.Stock.GetQuery()
+	q := s.db.Stock.GetQuery()
 	if query.ExchangeId != nil {
-		q.ExchangeId_Column(runtime.RELATION_EQUAL, *query.ExchangeId)
+		q.ExchangeId_Equal(*query.ExchangeId)
 	}
 
 	dbStockList, err := q.SelectList(context.Background())
@@ -47,7 +45,7 @@ func (s *StockService) List(query *models.StockListQuery) (list []*models.Stock,
 }
 
 func (s *StockService) Get(stockId string) (stock *models.Stock, err error) {
-	dbStock, err := s.storage.Stock.Stock.SelectByStockId(context.Background(), nil, stockId)
+	dbStock, err := s.db.Stock.GetQuery().StockId_Equal(stockId).Select(context.Background())
 	if err != nil {
 		return nil, err
 	}

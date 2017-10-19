@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/NeuronEvolution/log"
-	"github.com/NeuronEvolution/sql/runtime"
+	"github.com/NeuronEvolution/sql/wrap"
 	_ "github.com/go-sql-driver/mysql"
 	"go.uber.org/zap"
 	"time"
@@ -41,99 +41,322 @@ type Exchange struct {
 }
 
 type ExchangeQuery struct {
-	dao *ExchangeDao
-	runtime.Query
+	dao         *ExchangeDao
+	forUpdate   bool
+	forShare    bool
+	whereBuffer *bytes.Buffer
+	limitBuffer *bytes.Buffer
+	orderBuffer *bytes.Buffer
 }
 
 func NewExchangeQuery(dao *ExchangeDao) *ExchangeQuery {
 	q := &ExchangeQuery{}
 	q.dao = dao
-	q.WhereBuffer = bytes.NewBufferString("")
-	q.LimitBuffer = bytes.NewBufferString("")
-	q.OrderBuffer = bytes.NewBufferString("")
+	q.whereBuffer = bytes.NewBufferString("")
+	q.limitBuffer = bytes.NewBufferString("")
+	q.orderBuffer = bytes.NewBufferString("")
 
 	return q
+}
+
+func (q *ExchangeQuery) buildQueryString() string {
+	buf := bytes.NewBufferString("")
+
+	if q.forShare {
+		buf.WriteString(" FOR UPDATE ")
+	}
+
+	if q.forUpdate {
+		buf.WriteString(" LOCK IN SHARE MODE ")
+	}
+
+	whereSql := q.whereBuffer.String()
+	if whereSql != "" {
+		buf.WriteString(" WHERE ")
+		buf.WriteString(whereSql)
+	}
+
+	limitSql := q.limitBuffer.String()
+	if limitSql != "" {
+		buf.WriteString(limitSql)
+	}
+
+	orderSql := q.orderBuffer.String()
+	if orderSql != "" {
+		buf.WriteString(orderSql)
+	}
+
+	return buf.String()
 }
 
 func (q *ExchangeQuery) Select(ctx context.Context) (*Exchange, error) {
-	return q.dao.Select(ctx, nil, q.BuildQueryString())
+	return q.dao.doSelect(ctx, nil, q.buildQueryString())
 }
 
-func (q *ExchangeQuery) SelectForUpdate(ctx context.Context, tx *runtime.Tx) (*Exchange, error) {
-	q.ForUpdate = true
-	return q.dao.Select(ctx, tx, q.BuildQueryString())
+func (q *ExchangeQuery) SelectForUpdate(ctx context.Context, tx *wrap.Tx) (*Exchange, error) {
+	q.forUpdate = true
+	return q.dao.doSelect(ctx, tx, q.buildQueryString())
 }
 
-func (q *ExchangeQuery) SelectForShare(ctx context.Context, tx *runtime.Tx) (*Exchange, error) {
-	q.ForShare = true
-	return q.dao.Select(ctx, tx, q.BuildQueryString())
+func (q *ExchangeQuery) SelectForShare(ctx context.Context, tx *wrap.Tx) (*Exchange, error) {
+	q.forShare = true
+	return q.dao.doSelect(ctx, tx, q.buildQueryString())
 }
 
 func (q *ExchangeQuery) SelectList(ctx context.Context) (list []*Exchange, err error) {
-	return q.dao.SelectList(ctx, nil, q.BuildQueryString())
+	return q.dao.doSelectList(ctx, nil, q.buildQueryString())
 }
 
-func (q *ExchangeQuery) SelectListForUpdate(ctx context.Context, tx *runtime.Tx) (list []*Exchange, err error) {
-	q.ForUpdate = true
-	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
+func (q *ExchangeQuery) SelectListForUpdate(ctx context.Context, tx *wrap.Tx) (list []*Exchange, err error) {
+	q.forUpdate = true
+	return q.dao.doSelectList(ctx, tx, q.buildQueryString())
 }
 
-func (q *ExchangeQuery) SelectListForShare(ctx context.Context, tx *runtime.Tx) (list []*Exchange, err error) {
-	q.ForShare = true
-	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
+func (q *ExchangeQuery) SelectListForShare(ctx context.Context, tx *wrap.Tx) (list []*Exchange, err error) {
+	q.forShare = true
+	return q.dao.doSelectList(ctx, tx, q.buildQueryString())
 }
 
-func (q *ExchangeQuery) Id_Column(r runtime.Relation, v int64) *ExchangeQuery {
-	q.WhereBuffer.WriteString("id" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *ExchangeQuery) Left() *ExchangeQuery {
+	q.whereBuffer.WriteString(" ( ")
 	return q
 }
 
-func (q *ExchangeQuery) ExchangeId_Column(r runtime.Relation, v string) *ExchangeQuery {
-	q.WhereBuffer.WriteString("exchange_id" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *ExchangeQuery) Right() *ExchangeQuery {
+	q.whereBuffer.WriteString(" ) ")
 	return q
 }
 
-func (q *ExchangeQuery) ExchangeNameCn_Column(r runtime.Relation, v string) *ExchangeQuery {
-	q.WhereBuffer.WriteString("exchange_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *ExchangeQuery) And() *ExchangeQuery {
+	q.whereBuffer.WriteString(" AND ")
 	return q
 }
 
-func (q *ExchangeQuery) ExchangeNameEn_Column(r runtime.Relation, v string) *ExchangeQuery {
-	q.WhereBuffer.WriteString("exchange_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *ExchangeQuery) Or() *ExchangeQuery {
+	q.whereBuffer.WriteString(" OR ")
 	return q
 }
 
-func (q *ExchangeQuery) CreateTime_Column(r runtime.Relation, v time.Time) *ExchangeQuery {
-	q.WhereBuffer.WriteString("create_time" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *ExchangeQuery) Not() *ExchangeQuery {
+	q.whereBuffer.WriteString(" NOT ")
 	return q
 }
 
-func (q *ExchangeQuery) UpdateTime_Column(r runtime.Relation, v time.Time) *ExchangeQuery {
-	q.WhereBuffer.WriteString("update_time" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *ExchangeQuery) Limit(startIncluded int64, count int64) *ExchangeQuery {
+	q.limitBuffer.WriteString(fmt.Sprintf(" limit %d,%d", startIncluded, count))
+	return q
+}
+
+func (q *ExchangeQuery) Sort(fieldName string, asc bool) *ExchangeQuery {
+	if asc {
+		q.orderBuffer.WriteString(fmt.Sprintf(" order by %s asc", fieldName))
+	} else {
+		q.orderBuffer.WriteString(fmt.Sprintf(" order by %s desc", fieldName))
+	}
+
+	return q
+}
+func (q *ExchangeQuery) Id_Equal(v int64) *ExchangeQuery {
+	q.whereBuffer.WriteString("id='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Id_NotEqual(v int64) *ExchangeQuery {
+	q.whereBuffer.WriteString("id<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Id_Less(v int64) *ExchangeQuery {
+	q.whereBuffer.WriteString("id<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Id_LessEqual(v int64) *ExchangeQuery {
+	q.whereBuffer.WriteString("id<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Id_Greater(v int64) *ExchangeQuery {
+	q.whereBuffer.WriteString("id>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) Id_GreaterEqual(v int64) *ExchangeQuery {
+	q.whereBuffer.WriteString("id='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeId_Equal(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_id='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeId_NotEqual(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_id<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeId_Less(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_id<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeId_LessEqual(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_id<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeId_Greater(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_id>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeId_GreaterEqual(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_id='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameCn_Equal(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameCn_NotEqual(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_cn<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameCn_Less(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_cn<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameCn_LessEqual(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_cn<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameCn_Greater(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_cn>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameCn_GreaterEqual(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameEn_Equal(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameEn_NotEqual(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_en<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameEn_Less(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_en<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameEn_LessEqual(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_en<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameEn_Greater(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_en>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) ExchangeNameEn_GreaterEqual(v string) *ExchangeQuery {
+	q.whereBuffer.WriteString("exchange_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) CreateTime_Equal(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("create_time='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) CreateTime_NotEqual(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("create_time<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) CreateTime_Less(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("create_time<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) CreateTime_LessEqual(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("create_time<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) CreateTime_Greater(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("create_time>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) CreateTime_GreaterEqual(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("create_time='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) UpdateTime_Equal(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("update_time='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) UpdateTime_NotEqual(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("update_time<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) UpdateTime_Less(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("update_time<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) UpdateTime_LessEqual(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("update_time<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) UpdateTime_Greater(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("update_time>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *ExchangeQuery) UpdateTime_GreaterEqual(v time.Time) *ExchangeQuery {
+	q.whereBuffer.WriteString("update_time='" + fmt.Sprint(v) + "'")
 	return q
 }
 
 type ExchangeDao struct {
-	logger                 *zap.Logger
-	db                     *DB
-	insertStmt             *runtime.Stmt
-	updateStmt             *runtime.Stmt
-	deleteStmt             *runtime.Stmt
-	selectStmtAll          *runtime.Stmt
-	selectStmtById         *runtime.Stmt
-	selectStmtByUpdateTime *runtime.Stmt
-	selectStmtByExchangeId *runtime.Stmt
+	logger     *zap.Logger
+	db         *DB
+	insertStmt *wrap.Stmt
+	updateStmt *wrap.Stmt
+	deleteStmt *wrap.Stmt
 }
 
-func NewExchangeDao(db *DB) (t *ExchangeDao) {
+func NewExchangeDao(db *DB) (t *ExchangeDao, err error) {
 	t = &ExchangeDao{}
 	t.logger = log.TypedLogger(t)
 	t.db = db
+	err = t.init()
+	if err != nil {
+		return nil, err
+	}
 
-	return t
+	return t, nil
 }
 
-func (dao *ExchangeDao) Init() (err error) {
+func (dao *ExchangeDao) init() (err error) {
 	err = dao.prepareInsertStmt()
 	if err != nil {
 		return err
@@ -145,26 +368,6 @@ func (dao *ExchangeDao) Init() (err error) {
 	}
 
 	err = dao.prepareDeleteStmt()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtAll()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtById()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtByUpdateTime()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtByExchangeId()
 	if err != nil {
 		return err
 	}
@@ -186,27 +389,7 @@ func (dao *ExchangeDao) prepareDeleteStmt() (err error) {
 	return err
 }
 
-func (dao *ExchangeDao) prepareSelectStmtAll() (err error) {
-	dao.selectStmtAll, err = dao.db.Prepare(context.Background(), "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange")
-	return err
-}
-
-func (dao *ExchangeDao) prepareSelectStmtById() (err error) {
-	dao.selectStmtById, err = dao.db.Prepare(context.Background(), "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange WHERE id=?")
-	return err
-}
-
-func (dao *ExchangeDao) prepareSelectStmtByUpdateTime() (err error) {
-	dao.selectStmtByUpdateTime, err = dao.db.Prepare(context.Background(), "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange WHERE update_time=?")
-	return err
-}
-
-func (dao *ExchangeDao) prepareSelectStmtByExchangeId() (err error) {
-	dao.selectStmtByExchangeId, err = dao.db.Prepare(context.Background(), "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange WHERE exchange_id=?")
-	return err
-}
-
-func (dao *ExchangeDao) Insert(ctx context.Context, tx *runtime.Tx, e *Exchange) (id int64, err error) {
+func (dao *ExchangeDao) Insert(ctx context.Context, tx *wrap.Tx, e *Exchange) (id int64, err error) {
 	stmt := dao.insertStmt
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -225,7 +408,7 @@ func (dao *ExchangeDao) Insert(ctx context.Context, tx *runtime.Tx, e *Exchange)
 	return id, nil
 }
 
-func (dao *ExchangeDao) Update(ctx context.Context, tx *runtime.Tx, e *Exchange) (rowsAffected int64, err error) {
+func (dao *ExchangeDao) Update(ctx context.Context, tx *wrap.Tx, e *Exchange) (err error) {
 	stmt := dao.updateStmt
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -233,18 +416,22 @@ func (dao *ExchangeDao) Update(ctx context.Context, tx *runtime.Tx, e *Exchange)
 
 	result, err := stmt.Exec(ctx, e.ExchangeId, e.ExchangeNameCn, e.ExchangeNameEn, e.CreateTime, e.UpdateTime, e.Id)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	rowsAffected, err = result.RowsAffected()
+	rowsAffected, err := result.RowsAffected()
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	return rowsAffected, nil
+	if rowsAffected != 1 {
+		return fmt.Errorf("rowsAffected:%s", rowsAffected)
+	}
+
+	return nil
 }
 
-func (dao *ExchangeDao) Delete(ctx context.Context, tx *runtime.Tx, id int64) (rowsAffected int64, err error) {
+func (dao *ExchangeDao) Delete(ctx context.Context, tx *wrap.Tx, id int64) (err error) {
 	stmt := dao.deleteStmt
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -252,22 +439,26 @@ func (dao *ExchangeDao) Delete(ctx context.Context, tx *runtime.Tx, id int64) (r
 
 	result, err := stmt.Exec(ctx, id)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	rowsAffected, err = result.RowsAffected()
+	rowsAffected, err := result.RowsAffected()
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	return rowsAffected, nil
+	if rowsAffected != 1 {
+		return fmt.Errorf("rowsAffected:%s", rowsAffected)
+	}
+
+	return nil
 }
 
-func (dao *ExchangeDao) ScanRow(row *runtime.Row) (*Exchange, error) {
+func (dao *ExchangeDao) scanRow(row *wrap.Row) (*Exchange, error) {
 	e := &Exchange{}
 	err := row.Scan(&e.Id, &e.ExchangeId, &e.ExchangeNameCn, &e.ExchangeNameEn, &e.CreateTime, &e.UpdateTime)
 	if err != nil {
-		if err == runtime.ErrNoRows {
+		if err == wrap.ErrNoRows {
 			return nil, nil
 		} else {
 			return nil, err
@@ -277,7 +468,7 @@ func (dao *ExchangeDao) ScanRow(row *runtime.Row) (*Exchange, error) {
 	return e, nil
 }
 
-func (dao *ExchangeDao) ScanRows(rows *runtime.Rows) (list []*Exchange, err error) {
+func (dao *ExchangeDao) scanRows(rows *wrap.Rows) (list []*Exchange, err error) {
 	list = make([]*Exchange, 0)
 	for rows.Next() {
 		e := Exchange{}
@@ -295,76 +486,19 @@ func (dao *ExchangeDao) ScanRows(rows *runtime.Rows) (list []*Exchange, err erro
 	return list, nil
 }
 
-func (dao *ExchangeDao) SelectAll(ctx context.Context, tx *runtime.Tx) (list []*Exchange, err error) {
-	stmt := dao.selectStmtAll
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	rows, err := stmt.Query(ctx)
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return nil, err
-	}
-
-	return dao.ScanRows(rows)
-}
-
-func (dao *ExchangeDao) Select(ctx context.Context, tx *runtime.Tx, query string) (*Exchange, error) {
+func (dao *ExchangeDao) doSelect(ctx context.Context, tx *wrap.Tx, query string) (*Exchange, error) {
 	row := dao.db.QueryRow(ctx, "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange "+query)
-	return dao.ScanRow(row)
+	return dao.scanRow(row)
 }
 
-func (dao *ExchangeDao) SelectList(ctx context.Context, tx *runtime.Tx, query string) (list []*Exchange, err error) {
+func (dao *ExchangeDao) doSelectList(ctx context.Context, tx *wrap.Tx, query string) (list []*Exchange, err error) {
 	rows, err := dao.db.Query(ctx, "SELECT "+EXCHANGE_ALL_FIELDS_STRING+" FROM exchange "+query)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
 	}
 
-	return dao.ScanRows(rows)
-}
-
-func (dao *ExchangeDao) SelectById(ctx context.Context, tx *runtime.Tx, Id int64) (*Exchange, error) {
-	stmt := dao.selectStmtById
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	return dao.ScanRow(stmt.QueryRow(ctx, Id))
-}
-
-func (dao *ExchangeDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime time.Time) (*Exchange, error) {
-	stmt := dao.selectStmtByUpdateTime
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	return dao.ScanRow(stmt.QueryRow(ctx, UpdateTime))
-}
-
-func (dao *ExchangeDao) SelectListByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime time.Time) (list []*Exchange, err error) {
-	stmt := dao.selectStmtByUpdateTime
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	rows, err := stmt.Query(ctx, UpdateTime)
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return nil, err
-	}
-
-	return dao.ScanRows(rows)
-}
-
-func (dao *ExchangeDao) SelectByExchangeId(ctx context.Context, tx *runtime.Tx, ExchangeId string) (*Exchange, error) {
-	stmt := dao.selectStmtByExchangeId
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	return dao.ScanRow(stmt.QueryRow(ctx, ExchangeId))
+	return dao.scanRows(rows)
 }
 
 func (dao *ExchangeDao) GetQuery() *ExchangeQuery {
@@ -434,157 +568,652 @@ type Stock struct {
 }
 
 type StockQuery struct {
-	dao *StockDao
-	runtime.Query
+	dao         *StockDao
+	forUpdate   bool
+	forShare    bool
+	whereBuffer *bytes.Buffer
+	limitBuffer *bytes.Buffer
+	orderBuffer *bytes.Buffer
 }
 
 func NewStockQuery(dao *StockDao) *StockQuery {
 	q := &StockQuery{}
 	q.dao = dao
-	q.WhereBuffer = bytes.NewBufferString("")
-	q.LimitBuffer = bytes.NewBufferString("")
-	q.OrderBuffer = bytes.NewBufferString("")
+	q.whereBuffer = bytes.NewBufferString("")
+	q.limitBuffer = bytes.NewBufferString("")
+	q.orderBuffer = bytes.NewBufferString("")
 
 	return q
+}
+
+func (q *StockQuery) buildQueryString() string {
+	buf := bytes.NewBufferString("")
+
+	if q.forShare {
+		buf.WriteString(" FOR UPDATE ")
+	}
+
+	if q.forUpdate {
+		buf.WriteString(" LOCK IN SHARE MODE ")
+	}
+
+	whereSql := q.whereBuffer.String()
+	if whereSql != "" {
+		buf.WriteString(" WHERE ")
+		buf.WriteString(whereSql)
+	}
+
+	limitSql := q.limitBuffer.String()
+	if limitSql != "" {
+		buf.WriteString(limitSql)
+	}
+
+	orderSql := q.orderBuffer.String()
+	if orderSql != "" {
+		buf.WriteString(orderSql)
+	}
+
+	return buf.String()
 }
 
 func (q *StockQuery) Select(ctx context.Context) (*Stock, error) {
-	return q.dao.Select(ctx, nil, q.BuildQueryString())
+	return q.dao.doSelect(ctx, nil, q.buildQueryString())
 }
 
-func (q *StockQuery) SelectForUpdate(ctx context.Context, tx *runtime.Tx) (*Stock, error) {
-	q.ForUpdate = true
-	return q.dao.Select(ctx, tx, q.BuildQueryString())
+func (q *StockQuery) SelectForUpdate(ctx context.Context, tx *wrap.Tx) (*Stock, error) {
+	q.forUpdate = true
+	return q.dao.doSelect(ctx, tx, q.buildQueryString())
 }
 
-func (q *StockQuery) SelectForShare(ctx context.Context, tx *runtime.Tx) (*Stock, error) {
-	q.ForShare = true
-	return q.dao.Select(ctx, tx, q.BuildQueryString())
+func (q *StockQuery) SelectForShare(ctx context.Context, tx *wrap.Tx) (*Stock, error) {
+	q.forShare = true
+	return q.dao.doSelect(ctx, tx, q.buildQueryString())
 }
 
 func (q *StockQuery) SelectList(ctx context.Context) (list []*Stock, err error) {
-	return q.dao.SelectList(ctx, nil, q.BuildQueryString())
+	return q.dao.doSelectList(ctx, nil, q.buildQueryString())
 }
 
-func (q *StockQuery) SelectListForUpdate(ctx context.Context, tx *runtime.Tx) (list []*Stock, err error) {
-	q.ForUpdate = true
-	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
+func (q *StockQuery) SelectListForUpdate(ctx context.Context, tx *wrap.Tx) (list []*Stock, err error) {
+	q.forUpdate = true
+	return q.dao.doSelectList(ctx, tx, q.buildQueryString())
 }
 
-func (q *StockQuery) SelectListForShare(ctx context.Context, tx *runtime.Tx) (list []*Stock, err error) {
-	q.ForShare = true
-	return q.dao.SelectList(ctx, tx, q.BuildQueryString())
+func (q *StockQuery) SelectListForShare(ctx context.Context, tx *wrap.Tx) (list []*Stock, err error) {
+	q.forShare = true
+	return q.dao.doSelectList(ctx, tx, q.buildQueryString())
 }
 
-func (q *StockQuery) Id_Column(r runtime.Relation, v int64) *StockQuery {
-	q.WhereBuffer.WriteString("id" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Left() *StockQuery {
+	q.whereBuffer.WriteString(" ( ")
 	return q
 }
 
-func (q *StockQuery) StockId_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("stock_id" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Right() *StockQuery {
+	q.whereBuffer.WriteString(" ) ")
 	return q
 }
 
-func (q *StockQuery) ExchangeId_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("exchange_id" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) And() *StockQuery {
+	q.whereBuffer.WriteString(" AND ")
 	return q
 }
 
-func (q *StockQuery) StockCode_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("stock_code" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Or() *StockQuery {
+	q.whereBuffer.WriteString(" OR ")
 	return q
 }
 
-func (q *StockQuery) StockNameCn_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("stock_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Not() *StockQuery {
+	q.whereBuffer.WriteString(" NOT ")
 	return q
 }
 
-func (q *StockQuery) StockNameEn_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("stock_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Limit(startIncluded int64, count int64) *StockQuery {
+	q.limitBuffer.WriteString(fmt.Sprintf(" limit %d,%d", startIncluded, count))
 	return q
 }
 
-func (q *StockQuery) LaunchDate_Column(r runtime.Relation, v time.Time) *StockQuery {
-	q.WhereBuffer.WriteString("launch_date" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Sort(fieldName string, asc bool) *StockQuery {
+	if asc {
+		q.orderBuffer.WriteString(fmt.Sprintf(" order by %s asc", fieldName))
+	} else {
+		q.orderBuffer.WriteString(fmt.Sprintf(" order by %s desc", fieldName))
+	}
+
+	return q
+}
+func (q *StockQuery) Id_Equal(v int64) *StockQuery {
+	q.whereBuffer.WriteString("id='" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) CompanyNameCn_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("company_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Id_NotEqual(v int64) *StockQuery {
+	q.whereBuffer.WriteString("id<>'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) CompanyNameEn_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("company_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Id_Less(v int64) *StockQuery {
+	q.whereBuffer.WriteString("id<'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) WebsiteUrl_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("website_url" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Id_LessEqual(v int64) *StockQuery {
+	q.whereBuffer.WriteString("id<='" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) IndustryName_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("industry_name" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Id_Greater(v int64) *StockQuery {
+	q.whereBuffer.WriteString("id>='" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) CityNameCn_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("city_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) Id_GreaterEqual(v int64) *StockQuery {
+	q.whereBuffer.WriteString("id='" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) CityNameEn_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("city_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) StockId_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_id='" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) ProvinceNameCn_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("province_name_cn" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) StockId_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_id<>'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) ProvinceNameEn_Column(r runtime.Relation, v string) *StockQuery {
-	q.WhereBuffer.WriteString("province_name_en" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) StockId_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_id<'" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) CreateTime_Column(r runtime.Relation, v time.Time) *StockQuery {
-	q.WhereBuffer.WriteString("create_time" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) StockId_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_id<='" + fmt.Sprint(v) + "'")
 	return q
 }
 
-func (q *StockQuery) UpdateTime_Column(r runtime.Relation, v time.Time) *StockQuery {
-	q.WhereBuffer.WriteString("update_time" + string(r) + "'" + fmt.Sprint(v) + "'")
+func (q *StockQuery) StockId_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_id>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockId_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_id='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ExchangeId_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("exchange_id='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ExchangeId_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("exchange_id<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ExchangeId_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("exchange_id<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ExchangeId_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("exchange_id<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ExchangeId_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("exchange_id>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ExchangeId_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("exchange_id='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockCode_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_code='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockCode_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_code<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockCode_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_code<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockCode_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_code<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockCode_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_code>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockCode_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_code='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameCn_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameCn_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_cn<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameCn_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_cn<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameCn_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_cn<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameCn_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_cn>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameCn_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameEn_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameEn_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_en<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameEn_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_en<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameEn_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_en<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameEn_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_en>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) StockNameEn_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("stock_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) LaunchDate_Equal(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("launch_date='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) LaunchDate_NotEqual(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("launch_date<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) LaunchDate_Less(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("launch_date<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) LaunchDate_LessEqual(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("launch_date<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) LaunchDate_Greater(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("launch_date>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) LaunchDate_GreaterEqual(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("launch_date='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameCn_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameCn_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_cn<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameCn_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_cn<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameCn_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_cn<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameCn_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_cn>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameCn_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameEn_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameEn_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_en<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameEn_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_en<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameEn_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_en<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameEn_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_en>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CompanyNameEn_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("company_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) WebsiteUrl_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("website_url='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) WebsiteUrl_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("website_url<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) WebsiteUrl_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("website_url<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) WebsiteUrl_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("website_url<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) WebsiteUrl_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("website_url>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) WebsiteUrl_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("website_url='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) IndustryName_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("industry_name='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) IndustryName_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("industry_name<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) IndustryName_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("industry_name<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) IndustryName_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("industry_name<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) IndustryName_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("industry_name>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) IndustryName_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("industry_name='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameCn_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameCn_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_cn<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameCn_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_cn<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameCn_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_cn<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameCn_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_cn>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameCn_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameEn_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameEn_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_en<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameEn_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_en<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameEn_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_en<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameEn_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_en>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CityNameEn_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("city_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameCn_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameCn_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_cn<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameCn_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_cn<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameCn_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_cn<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameCn_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_cn>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameCn_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_cn='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameEn_Equal(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameEn_NotEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_en<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameEn_Less(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_en<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameEn_LessEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_en<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameEn_Greater(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_en>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) ProvinceNameEn_GreaterEqual(v string) *StockQuery {
+	q.whereBuffer.WriteString("province_name_en='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CreateTime_Equal(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("create_time='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CreateTime_NotEqual(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("create_time<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CreateTime_Less(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("create_time<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CreateTime_LessEqual(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("create_time<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CreateTime_Greater(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("create_time>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) CreateTime_GreaterEqual(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("create_time='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) UpdateTime_Equal(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("update_time='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) UpdateTime_NotEqual(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("update_time<>'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) UpdateTime_Less(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("update_time<'" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) UpdateTime_LessEqual(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("update_time<='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) UpdateTime_Greater(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("update_time>='" + fmt.Sprint(v) + "'")
+	return q
+}
+
+func (q *StockQuery) UpdateTime_GreaterEqual(v time.Time) *StockQuery {
+	q.whereBuffer.WriteString("update_time='" + fmt.Sprint(v) + "'")
 	return q
 }
 
 type StockDao struct {
-	logger                             *zap.Logger
-	db                                 *DB
-	insertStmt                         *runtime.Stmt
-	updateStmt                         *runtime.Stmt
-	deleteStmt                         *runtime.Stmt
-	selectStmtAll                      *runtime.Stmt
-	selectStmtById                     *runtime.Stmt
-	selectStmtByUpdateTime             *runtime.Stmt
-	selectStmtByIndustryName           *runtime.Stmt
-	selectStmtByStockId                *runtime.Stmt
-	selectStmtByExchangeId             *runtime.Stmt
-	selectStmtByExchangeIdAndStockCode *runtime.Stmt
+	logger     *zap.Logger
+	db         *DB
+	insertStmt *wrap.Stmt
+	updateStmt *wrap.Stmt
+	deleteStmt *wrap.Stmt
 }
 
-func NewStockDao(db *DB) (t *StockDao) {
+func NewStockDao(db *DB) (t *StockDao, err error) {
 	t = &StockDao{}
 	t.logger = log.TypedLogger(t)
 	t.db = db
+	err = t.init()
+	if err != nil {
+		return nil, err
+	}
 
-	return t
+	return t, nil
 }
 
-func (dao *StockDao) Init() (err error) {
+func (dao *StockDao) init() (err error) {
 	err = dao.prepareInsertStmt()
 	if err != nil {
 		return err
@@ -596,41 +1225,6 @@ func (dao *StockDao) Init() (err error) {
 	}
 
 	err = dao.prepareDeleteStmt()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtAll()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtById()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtByUpdateTime()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtByIndustryName()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtByStockId()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtByExchangeId()
-	if err != nil {
-		return err
-	}
-
-	err = dao.prepareSelectStmtByExchangeIdAndStockCode()
 	if err != nil {
 		return err
 	}
@@ -652,42 +1246,7 @@ func (dao *StockDao) prepareDeleteStmt() (err error) {
 	return err
 }
 
-func (dao *StockDao) prepareSelectStmtAll() (err error) {
-	dao.selectStmtAll, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock")
-	return err
-}
-
-func (dao *StockDao) prepareSelectStmtById() (err error) {
-	dao.selectStmtById, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE id=?")
-	return err
-}
-
-func (dao *StockDao) prepareSelectStmtByUpdateTime() (err error) {
-	dao.selectStmtByUpdateTime, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE update_time=?")
-	return err
-}
-
-func (dao *StockDao) prepareSelectStmtByIndustryName() (err error) {
-	dao.selectStmtByIndustryName, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE industry_name=?")
-	return err
-}
-
-func (dao *StockDao) prepareSelectStmtByStockId() (err error) {
-	dao.selectStmtByStockId, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE stock_id=?")
-	return err
-}
-
-func (dao *StockDao) prepareSelectStmtByExchangeId() (err error) {
-	dao.selectStmtByExchangeId, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE exchange_id=?")
-	return err
-}
-
-func (dao *StockDao) prepareSelectStmtByExchangeIdAndStockCode() (err error) {
-	dao.selectStmtByExchangeIdAndStockCode, err = dao.db.Prepare(context.Background(), "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock WHERE exchange_id=? AND stock_code=?")
-	return err
-}
-
-func (dao *StockDao) Insert(ctx context.Context, tx *runtime.Tx, e *Stock) (id int64, err error) {
+func (dao *StockDao) Insert(ctx context.Context, tx *wrap.Tx, e *Stock) (id int64, err error) {
 	stmt := dao.insertStmt
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -706,7 +1265,7 @@ func (dao *StockDao) Insert(ctx context.Context, tx *runtime.Tx, e *Stock) (id i
 	return id, nil
 }
 
-func (dao *StockDao) Update(ctx context.Context, tx *runtime.Tx, e *Stock) (rowsAffected int64, err error) {
+func (dao *StockDao) Update(ctx context.Context, tx *wrap.Tx, e *Stock) (err error) {
 	stmt := dao.updateStmt
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -714,18 +1273,22 @@ func (dao *StockDao) Update(ctx context.Context, tx *runtime.Tx, e *Stock) (rows
 
 	result, err := stmt.Exec(ctx, e.StockId, e.ExchangeId, e.StockCode, e.StockNameCn, e.StockNameEn, e.LaunchDate, e.CompanyNameCn, e.CompanyNameEn, e.WebsiteUrl, e.IndustryName, e.CityNameCn, e.CityNameEn, e.ProvinceNameCn, e.ProvinceNameEn, e.CreateTime, e.UpdateTime, e.Id)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	rowsAffected, err = result.RowsAffected()
+	rowsAffected, err := result.RowsAffected()
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	return rowsAffected, nil
+	if rowsAffected != 1 {
+		return fmt.Errorf("rowsAffected:%s", rowsAffected)
+	}
+
+	return nil
 }
 
-func (dao *StockDao) Delete(ctx context.Context, tx *runtime.Tx, id int64) (rowsAffected int64, err error) {
+func (dao *StockDao) Delete(ctx context.Context, tx *wrap.Tx, id int64) (err error) {
 	stmt := dao.deleteStmt
 	if tx != nil {
 		stmt = tx.Stmt(ctx, stmt)
@@ -733,22 +1296,26 @@ func (dao *StockDao) Delete(ctx context.Context, tx *runtime.Tx, id int64) (rows
 
 	result, err := stmt.Exec(ctx, id)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	rowsAffected, err = result.RowsAffected()
+	rowsAffected, err := result.RowsAffected()
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	return rowsAffected, nil
+	if rowsAffected != 1 {
+		return fmt.Errorf("rowsAffected:%s", rowsAffected)
+	}
+
+	return nil
 }
 
-func (dao *StockDao) ScanRow(row *runtime.Row) (*Stock, error) {
+func (dao *StockDao) scanRow(row *wrap.Row) (*Stock, error) {
 	e := &Stock{}
 	err := row.Scan(&e.Id, &e.StockId, &e.ExchangeId, &e.StockCode, &e.StockNameCn, &e.StockNameEn, &e.LaunchDate, &e.CompanyNameCn, &e.CompanyNameEn, &e.WebsiteUrl, &e.IndustryName, &e.CityNameCn, &e.CityNameEn, &e.ProvinceNameCn, &e.ProvinceNameEn, &e.CreateTime, &e.UpdateTime)
 	if err != nil {
-		if err == runtime.ErrNoRows {
+		if err == wrap.ErrNoRows {
 			return nil, nil
 		} else {
 			return nil, err
@@ -758,7 +1325,7 @@ func (dao *StockDao) ScanRow(row *runtime.Row) (*Stock, error) {
 	return e, nil
 }
 
-func (dao *StockDao) ScanRows(rows *runtime.Rows) (list []*Stock, err error) {
+func (dao *StockDao) scanRows(rows *wrap.Rows) (list []*Stock, err error) {
 	list = make([]*Stock, 0)
 	for rows.Next() {
 		e := Stock{}
@@ -776,124 +1343,19 @@ func (dao *StockDao) ScanRows(rows *runtime.Rows) (list []*Stock, err error) {
 	return list, nil
 }
 
-func (dao *StockDao) SelectAll(ctx context.Context, tx *runtime.Tx) (list []*Stock, err error) {
-	stmt := dao.selectStmtAll
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	rows, err := stmt.Query(ctx)
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return nil, err
-	}
-
-	return dao.ScanRows(rows)
-}
-
-func (dao *StockDao) Select(ctx context.Context, tx *runtime.Tx, query string) (*Stock, error) {
+func (dao *StockDao) doSelect(ctx context.Context, tx *wrap.Tx, query string) (*Stock, error) {
 	row := dao.db.QueryRow(ctx, "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock "+query)
-	return dao.ScanRow(row)
+	return dao.scanRow(row)
 }
 
-func (dao *StockDao) SelectList(ctx context.Context, tx *runtime.Tx, query string) (list []*Stock, err error) {
+func (dao *StockDao) doSelectList(ctx context.Context, tx *wrap.Tx, query string) (list []*Stock, err error) {
 	rows, err := dao.db.Query(ctx, "SELECT "+STOCK_ALL_FIELDS_STRING+" FROM stock "+query)
 	if err != nil {
 		dao.logger.Error("sqlDriver", zap.Error(err))
 		return nil, err
 	}
 
-	return dao.ScanRows(rows)
-}
-
-func (dao *StockDao) SelectById(ctx context.Context, tx *runtime.Tx, Id int64) (*Stock, error) {
-	stmt := dao.selectStmtById
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	return dao.ScanRow(stmt.QueryRow(ctx, Id))
-}
-
-func (dao *StockDao) SelectByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime time.Time) (*Stock, error) {
-	stmt := dao.selectStmtByUpdateTime
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	return dao.ScanRow(stmt.QueryRow(ctx, UpdateTime))
-}
-
-func (dao *StockDao) SelectListByUpdateTime(ctx context.Context, tx *runtime.Tx, UpdateTime time.Time) (list []*Stock, err error) {
-	stmt := dao.selectStmtByUpdateTime
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	rows, err := stmt.Query(ctx, UpdateTime)
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return nil, err
-	}
-
-	return dao.ScanRows(rows)
-}
-
-func (dao *StockDao) SelectByIndustryName(ctx context.Context, tx *runtime.Tx, IndustryName string) (*Stock, error) {
-	stmt := dao.selectStmtByIndustryName
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	return dao.ScanRow(stmt.QueryRow(ctx, IndustryName))
-}
-
-func (dao *StockDao) SelectListByIndustryName(ctx context.Context, tx *runtime.Tx, IndustryName string) (list []*Stock, err error) {
-	stmt := dao.selectStmtByIndustryName
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	rows, err := stmt.Query(ctx, IndustryName)
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return nil, err
-	}
-
-	return dao.ScanRows(rows)
-}
-
-func (dao *StockDao) SelectByStockId(ctx context.Context, tx *runtime.Tx, StockId string) (*Stock, error) {
-	stmt := dao.selectStmtByStockId
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	return dao.ScanRow(stmt.QueryRow(ctx, StockId))
-}
-
-func (dao *StockDao) SelectByExchangeIdAndStockCode(ctx context.Context, tx *runtime.Tx, ExchangeId string, StockCode string) (*Stock, error) {
-	stmt := dao.selectStmtByExchangeIdAndStockCode
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	return dao.ScanRow(stmt.QueryRow(ctx, ExchangeId, StockCode))
-}
-
-func (dao *StockDao) SelectListByExchangeId(ctx context.Context, tx *runtime.Tx, ExchangeId string) (list []*Stock, err error) {
-	stmt := dao.selectStmtByExchangeId
-	if tx != nil {
-		stmt = tx.Stmt(ctx, stmt)
-	}
-
-	rows, err := stmt.Query(ctx, ExchangeId)
-	if err != nil {
-		dao.logger.Error("sqlDriver", zap.Error(err))
-		return nil, err
-	}
-
-	return dao.ScanRows(rows)
+	return dao.scanRows(rows)
 }
 
 func (dao *StockDao) GetQuery() *StockQuery {
@@ -901,7 +1363,7 @@ func (dao *StockDao) GetQuery() *StockQuery {
 }
 
 type DB struct {
-	runtime.DB
+	wrap.DB
 	Exchange *ExchangeDao
 	Stock    *StockDao
 }
@@ -913,7 +1375,7 @@ func NewDB(connectionString string) (d *DB, err error) {
 
 	d = &DB{}
 
-	db, err := runtime.Open("mysql", connectionString)
+	db, err := wrap.Open("mysql", connectionString)
 	if err != nil {
 		return nil, err
 	}
@@ -924,14 +1386,12 @@ func NewDB(connectionString string) (d *DB, err error) {
 		return nil, err
 	}
 
-	d.Exchange = NewExchangeDao(d)
-	err = d.Exchange.Init()
+	d.Exchange, err = NewExchangeDao(d)
 	if err != nil {
 		return nil, err
 	}
 
-	d.Stock = NewStockDao(d)
-	err = d.Stock.Init()
+	d.Stock, err = NewStockDao(d)
 	if err != nil {
 		return nil, err
 	}
