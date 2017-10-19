@@ -1,8 +1,8 @@
 package handler
 
 import (
-	api "github.com/NeuronEvolution/Stock/api/models"
-	"github.com/NeuronEvolution/Stock/api/restapi/operations"
+	api "github.com/NeuronEvolution/Stock/api/gen/models"
+	"github.com/NeuronEvolution/Stock/api/gen/restapi/operations"
 	"github.com/NeuronEvolution/Stock/models"
 	"github.com/go-openapi/strfmt"
 )

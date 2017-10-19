@@ -1,9 +1,11 @@
 package handler
 
 import (
-	"github.com/NeuronEvolution/Stock/api/restapi/operations"
+	"github.com/NeuronEvolution/Stock/api/gen/restapi/operations"
 	"github.com/NeuronEvolution/Stock/services"
+	"github.com/NeuronEvolution/errors"
 	"github.com/NeuronEvolution/log"
+	"github.com/NeuronEvolution/restful"
 	"github.com/go-openapi/runtime/middleware"
 	"go.uber.org/zap"
 )
@@ -37,7 +39,7 @@ func (h *StockHandler) List(params operations.StocksListParams) middleware.Respo
 	query := toStockListQuery(&params)
 	stockList, err := h.service.List(query)
 	if err != nil {
-		return operations.NewStocksListInternalServerError().WithPayload(err.Error())
+		return restful.Responder(err)
 	}
 
 	return operations.NewStocksListOK().WithPayload(fromStockList(stockList))
@@ -46,11 +48,11 @@ func (h *StockHandler) List(params operations.StocksListParams) middleware.Respo
 func (h *StockHandler) Get(params operations.StocksGetParams) middleware.Responder {
 	stock, err := h.service.Get(params.StockID)
 	if err != nil {
-		return operations.NewStocksGetInternalServerError().WithPayload(err.Error())
+		return restful.Responder(err)
 	}
 
 	if stock == nil {
-		return operations.NewStocksGetNotFound().WithPayload("Not found")
+		return restful.Responder(errors.NotFound("stock not exist"))
 	}
 
 	return operations.NewStocksGetOK().WithPayload(fromStock(stock))

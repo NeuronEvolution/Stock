@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/NeuronEvolution/Stock/api/restapi"
-	"github.com/NeuronEvolution/Stock/api/restapi/operations"
+	"github.com/NeuronEvolution/Stock/api/gen/restapi"
+	"github.com/NeuronEvolution/Stock/api/gen/restapi/operations"
 	"github.com/NeuronEvolution/Stock/cmd/stock-api/handler"
 	"github.com/NeuronEvolution/log"
+	"github.com/NeuronEvolution/restful"
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/marshome/i-pkg/httphelper"
 	"github.com/pkg/errors"
 	"github.com/rs/cors"
 	"github.com/spf13/cobra"
@@ -45,7 +45,7 @@ func main() {
 
 		logger.Info("Start server", zap.String("addr", bind_addr))
 		err = http.ListenAndServe(bind_addr,
-			httphelper.Recovery(cors.Default().Handler(api.Serve(nil))))
+			restful.Recovery(cors.Default().Handler(api.Serve(nil))))
 		if err != nil {
 			return errors.WithStack(err)
 		}
