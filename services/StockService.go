@@ -2,9 +2,10 @@ package services
 
 import (
 	"context"
+	"fmt"
 	"github.com/NeuronEvolution/Stock/models"
 	"github.com/NeuronEvolution/Stock/storages/fin-stock"
-	"github.com/NeuronEvolution/log"
+	"github.com/NeuronFramework/log"
 	"go.uber.org/zap"
 )
 
@@ -31,6 +32,8 @@ func NewStockService(options *StockServiceOptions) (s *StockService, err error) 
 }
 
 func (s *StockService) List(query *models.StockListQuery) (list []*models.Stock, err error) {
+	fmt.Println("List", query)
+
 	q := s.db.Stock.GetQuery()
 	if query.ExchangeId != nil {
 		q.ExchangeId_Equal(*query.ExchangeId)

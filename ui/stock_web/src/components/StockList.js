@@ -5,11 +5,6 @@ import "./StockList.css"
 
 class StockList extends React.Component {
     renderItem(stockItem) {
-        //return <h1 key={stockItem.stockId}
-        //         onClick={() => {
-        //           this.props.onItemClick(stockItem.stockId)
-        //     }}
-        //>{stockItem.stockId}+{stockItem.stockCode}</h1>
         return (
             <ListItem key={stockItem.stockId} divider="true" button="true" onClick={() => {
                 this.props.onItemClick(stockItem.stockId)
